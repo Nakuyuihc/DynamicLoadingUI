@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>礼物飞后台管理系统登录</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/common/js/login.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<style type="text/css">
+html,body {
+	height: 100%;
+	overflow: auto;
+}
+body {
+	padding: 0;
+	margin: 0;
+	background: url(/gift-fly/common/images/bg.png) repeat;
+	background-size: 100%;
+	z-index: 0;
+}
+#midDiv {
+	background: url(/gift-fly/common/images/bg1.png) no-repeat center;
+	background-size: 100%;
+ 	width: 100%;
+	height: 100%;
+	bottom:10%;
+	z-index: -1;
+	position: absolute;
+}
+input {
+	background-color: transparent;
+	float: left;
+	border: none;
+	color: #000;
+	height: 100%;
+	width: 100%;
+	font-size: 12pt;
+	outline: none;
+	vertical-align: middle;
+	line-height: 41px;
+}
+.inputTr {
+	height: 41px;
+	width: 301px;
+	background: url(/gift-fly/common/images/input_bg.png) no-repeat center;
+	margin-bottom: 12px;
+}
+.inputDiv {
+	float: left;
+	height: 100%;
+	width: 85%;
+}
+.leftImgDiv {
+	float: left;
+	width: 15%;
+	height: 100%;
+}
+.leftImgDiv img {
+	vertical-align: middle;
+}
+.inputTr span {
+	height: 100%;
+	width: 0;
+	overflow: hidden;
+	display: inline-block;
+	vertical-align: middle;
+}
+#login {
+	margin-top: 25px;
+	cursor: pointer;
+	background-image: url('/gift-fly/common/images/log-in.png');
+}
+#login:hover {
+	cursor: pointer;
+	background-image: url('/gift-fly/common/images/log-in2.png');
+}
+</style>
+</head>
+<body>
+	<div id="midDiv"></div>
+	<div style="color: #fff;text-align: center;margin-top: 5%;"><h1>后台管理系统</h1></div>
+	<table style="height:60%; width:100%;">
+		<tr>
+			<td align="center" valign="middle">
+				<div style="z-index: 1;">
+					<div class="inputTr">
+						<div class="leftImgDiv">
+							<img src="/gift-fly/common/images/icon_name.png" /><span></span>
+						</div>
+						<div class="inputDiv">
+							<input type="text" id="username" placeholder="请输入用户名"
+								maxlength="12" />
+						</div>
+					</div>
+					<div class="inputTr">
+						<div class="leftImgDiv">
+							<img src="/gift-fly/common/images/icon_Lock.png" /><span></span>
+						</div>
+						<div class="inputDiv">
+							<input type="password" id="password" placeholder="请输入密码"
+								maxlength="20" />
+						</div>
+					</div>
+					<!-- <div class="inputTr">
+						<div class="inputDiv">
+							<input type="code" id="code" maxlength="6" />
+						</div>
+					</div> -->
+					<div class="inputTr" id="login" onclick="login();"></div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

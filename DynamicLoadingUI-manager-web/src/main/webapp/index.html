@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>礼物飞后台管理系统</title>
+<link rel="stylesheet" type="text/css"
+	href="/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+
+<script type="text/javascript"
+	src="/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/common/js/index.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/common/js/changePassword.js"></script>
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0
+}
+
+a {
+	text-decoration: none;
+	color: #000;
+}
+
+ul, li {
+	list-style: none;
+}
+
+a:link, a:visited {
+	text-decoration: none;
+}
+
+.list {
+	width: 210px;
+	border-bottom: solid 1px #95B8E7;
+	margin: 0 auto 0 auto;
+}
+
+.list ul li {
+	background-color: #E0ECFF;
+	border: solid 1px #95B8E7;
+	border-bottom: 0;
+}
+
+.list ul li a {
+	padding-left: 10px;
+	color: #000;
+	font-size: 12px;
+	display: block;
+	/* font-weight: bold; */
+	height: 42px;
+	line-height: 42px;
+	position: relative;
+}
+
+.list ul li:HOVER {
+	background-color: #95B8E7;
+}
+
+.list ul li .inactive {
+	background: url(/gift-fly/common/images/+1.png) no-repeat 170px center;
+}
+
+.list ul li .inactives {
+	background: url(/gift-fly/common/images/-1.png) no-repeat 170px center;
+}
+
+.list ul li ul {
+	display: none;
+}
+
+.list ul li ul li {
+	border-left: 0;
+	border-right: 0;
+	background-color: #BDD5F5;
+	border-color: #f0f3f9;
+}
+
+.list ul li ul li a {
+	padding-left: 10px;
+	color: #000;
+	font-size: 12px;
+	display: block;
+	/* font-weight: bold; */
+	height: 35px;
+	line-height: 35px;
+	position: relative;
+}
+
+.list ul li ul li ul {
+	display: none;
+}
+
+.list ul li ul li a {
+	padding-left: 20px;
+}
+
+.list ul li ul li ul li {
+	background-color: #0a111f;
+	border-color: #3d4f72;
+}
+
+.last {
+	background-color: #d6e6f1;
+	border-color: #3d4f72;
+}
+
+.list ul li ul li ul li a {
+	color: #000;
+	padding-left: 30px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.panel-body {
+	background-color: #fff;
+	color: #000;
+	font-size: 12px;
+}
+
+#loginout a {
+	font-size: 12px;
+	color: #000;
+	width: 80px;
+	border: 1px solid #E0ECFF;
+	border-radius: 5px;
+	height: 24px;
+}
+
+#loginout a:HOVER {
+	background: #95B8E7;
+	font-size: 13px;
+	border: 1px solid #fff;
+}
+
+#navigation a {
+	width: 120px;
+	margin-left: 30px;
+	font-size: 18px;
+	height: 30px;
+	line-height: 30px;
+	font-weight: bold;
+	font-family: helvetica;
+	border: 1px solid #95B8E7;
+	display: inline-block;
+	text-align: center;
+	border-radius: 5px;
+}
+/* #navigation a:HOVER {
+	background: #95B8E7;
+} */
+</style>
+</head>
+<body class="easyui-layout">
+
+	//北部
+	<div data-options="region:'north'"
+		style="background:url(/gift-fly/common/images/headerImage.png);-moz-background-size:100% 100%; background-size:100% 100%;
+		 height: 60px;width:1920px; font-size: 30px; 
+		 font-family: SimHei; z-index: 0; overflow: hidden; 
+		  font-weight: bold;">
+		<div style="margin: 10px 40px; color: #fff">
+			<span>礼物飞后台管理系统</span>
+		</div>
+	</div>
+
+	//中部
+	<div data-options="region:'center'" class="easyui-layout"
+		style="border-top:1px solid #95B8E7;">
+
+		//中部的北部
+		<div data-options="region:'north'"
+			style="height: 35px; overflow: hidden; background-color: #E0ECFF; color: #000;">
+			<div style="margin: 3px 0 0 10px;">
+				<div id="time1" style="float: left;padding-top: 7px;"></div>
+				<div id="navigation" style="float: left;margin-left: 130px;">
+					<a href="javascript:void(0)" class="topnavigation" id="systemtab"
+						onclick="system()">系&nbsp;&nbsp;统</a> <a href="javascript:void(0)"
+						class="topnavigation" id="shoptab" onclick="shoppingmall()">商&nbsp;&nbsp;城</a>
+					<a href="javascript:void(0)" class="topnavigation"
+						id="operationtab" onclick="operation()">运&nbsp;&nbsp;营</a> <a
+						href="javascript:void(0)" class="topnavigation" id="custtab"
+						onclick="customerservice()">客&nbsp;&nbsp;服</a>
+				</div>
+				<div id="loginout" style="float: right;padding-top: 7px;">
+					<div style="float: left; width: 140px;">
+						欢迎您! <span id="showName"></span>
+					</div>
+					<div style="float: left; display: block; width: 80px;">
+						<a href="javascript:changePw()">&nbsp;修改密码</a>
+					</div>
+					<div style="float: left; display: block; width: 100px;">
+						<a href="javascript:logout()">&nbsp;退出系统</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		//中部的中部
+		<div data-options="region:'center',border:false" class="easyui-layout">
+
+			//中部的中部的中部
+			<div data-options="region:'center',border:false"
+				class="easyui-layout">
+
+				//中部的中部的中部的西部
+				<div data-options="region:'west'" class="myScrollbar"
+					style="width: 210px; overflow-x: hidden;">
+					<div class="list">
+						<ul id="systemlist">
+							<li><a href="#" class="inactive" id="datastatistics"
+								style="">数据统计</a>
+								<ul style="display: block">
+									<li class="last"><a
+										href="datastatistics/dataOverview.html" id="数据概览"
+										target="showframe">
+											<button id="subBtn" type="button" style="display: none;"></button>
+											数据概览
+									</a></li>
+								</ul></li>
+							<li><a href="#" class="inactive" id="setting">参数管理</a>
+								<ul style="display: none">
+									<li class="last"><a
+										href="basesetting/superParmSetting.html" id="超管参数"
+										target="showframe">超管参数</a></li>
+									<li class="last"><a
+										href="basesetting/baseSettingUpdate.html" id="系统参数"
+										target="showframe">系统参数</a></li>
+									<li class="last"><a href="basesetting/operateSetting.html"
+										id="运营参数" target="showframe">运营参数</a></li>
+									<li class="last"><a href="basesetting/finaSetting.html"
+										id="财务参数" target="showframe">财务参数</a></li>
+									<li class="last"><a href="basesetting/pageSetting.html"
+										id="页面参数" target="showframe">页面参数</a></li>
+									<li class="last"><a href="basesetting/rebateSetting.html"
+										id="推广返利参数" target="showframe">推广返利参数</a></li>
+									<!-- <li class="last"><a
+										href="basesetting/institutionManage.html" id="本机构参数管理"
+										target="showframe">本机构参数管理</a></li> -->
+								</ul></li>
+							<li><a href="#" class="inactive" id="system">系统管理</a>
+								<ul style="display: none">
+									<li class="last"><a href="system/accountSettings.html"
+										target="showframe" id="帐号管理">帐号管理</a></li>
+									<li class="last"><a href="system/roleRight.html"
+										target="showframe" id="角色权限">角色权限</a></li>
+									<li class="last"><a href="system/logManment.html"
+										target="showframe" id="系统日志">系统日志</a></li>
+									<li class="last"><a href="system/messagelog.html"
+										target="showframe" id="短信日志">短信日志</a></li>
+								</ul></li>
+							<li><a href="#" class="inactive" id="user">会员管理</a>
+								<ul style="display: none">
+									<li class="last"><a href="usermanment/userList.html"
+										target="showframe" id="会员列表">会员列表</a></li>
+								</ul></li>
+							<li><a href="#" class="inactive" id="merchant">加盟商家</a>
+								<ul style="display: none">
+									<li class="last"><a href="merchant/merchantList.html"
+										target="showframe" id="商家列表">商家列表</a></li>
+								</ul></li>
+							<li><a href="#" class="inactive" id="feedback">意见与举报</a>
+								<ul style="display: none">
+									<li class="last"><a href="conent/feedBack.html"
+										target="showframe" id="意见反馈">意见反馈</a></li>
+									<li class="last"><a href="feedback/informManage.html"
+										target="showframe" id="举报列表">举报列表</a></li>
+								</ul></li>
+							<li><a href="#" class="inactive" id="generalize">推广管理</a>
+								<ul style="display: none">
+									<li class="last"><a href="generalize/applyForPromotion.html"
+										target="showframe" id="推广员申请">推广员申请</a></li>
+								</ul></li>
+						</ul>
+						<ul id="shoppingmalllist" style="display: none;">
+							<li><a href="#" class="inactive" id="product">商品管理</a>
+								<ul style="display: none">
+									<li class="last"><a href="product/productList.html"
+										id="商品列表" target="showframe">商品列表</a></li>
+									<li class="last"><a href="product/productClassify.html"
+										id="商品分类" target="showframe">商品分类</a></li>
+									<li class="last"><a href="product/customproList.html"
+										id="定制商品列表" target="showframe">定制商品列表</a></li>
+									<li class="last"><a href="product/customproClassify.html"
+										id="定制主题" target="showframe">定制主题</a></li>
+									<li class="last"><a href="product/virtualGift.html"
+										id="虚拟礼物" target="showframe">虚拟礼物</a></li>
+									<!-- <li class="last"><a href="product/productLabel.html"
+										id="商品标签" target="showframe">商品标签</a></li> -->
+								</ul></li>
+							<li><a href="#" class="inactive" id="order">订单管理</a>
+								<ul style="display: none">
+									<li class="last"><a href="order/productOrder.html"
+										target="showframe" id="商品订单">商品订单</a></li>
+									<!-- <li class="last"><a href="order/customOrder.html"
+										target="showframe" id="定制商品订单">定制商品订单</a></li> -->
+									<li class="last"><a href="order/afterTheList.html"
+										target="showframe" id="售后列表">售后列表</a></li>
+								</ul></li>
+							<li><a href="#" class="inactive" id="evaluate">评价管理</a>
+								<ul style="display: none">
+									<li class="last"><a href="evaluate/evaluateList.html"
+										target="showframe" id="评价列表">评价列表</a></li>
+								</ul></li>
+							<li><a href="#" class="inactive" id="advertising">广告管理</a>
+								<ul style="display: none">
+									<li class="last"><a
+										href="advertising/advertisingList.html" target="showframe"
+										id="广告列表">广告列表</a></li>
+									<li class="last"><a href="advertising/headLines.html"
+										target="showframe" id="公告">公告</a></li>
+									<li class="last"><a href="advertising/systemMessages.html"
+										target="showframe" id="系统消息">系统消息</a></li>
+									<li class="last"><a href="system/sendPush.html"
+										target="showframe" id="发送推送">发送推送</a></li>
+								</ul></li>
+							<li><a href="#" class="inactive" id="promotion">促销管理</a>
+								<ul style="display: none">
+									<li class="last"><a href="promotion/activities.html"
+										target="showframe" id="专区活动">专区活动</a></li>
+									<li class="last"><a href="promotion/coupon.html"
+										target="showframe" id="优惠券">优惠券</a></li>
+									<li class="last"><a href="promotion/newusercoupon.html"
+										target="showframe" id="新人优惠券">新人优惠券</a></li>
+								</ul></li>
+						</ul>
+						<ul id="operationlist" style="display: none;">
+							<li><a href="#" class="inactive" id="business">校园创业</a>
+								<ul style="display: none">
+									<li class="last"><a href="business/schoolList.html"
+										id="学校列表" target="showframe">学校列表</a></li>
+									<!-- <li class="last"><a href="business/businessInfo.html"
+										id="创业信息" target="showframe">创业信息</a></li> -->
+									<li class="last"><a href="business/applyList.html"
+										id="申请列表" target="showframe">申请列表</a></li>
+								</ul></li>
+							<li><a href="#" class="inactive" id="conent">内容管理</a>
+								<ul style="display: none">
+									<li class="last"><a href="conent/circleList.html"
+										target="showframe" id="圈子管理">圈子管理</a></li>
+									<li class="last"><a href="conent/feedBack.html"
+										target="showframe" id="意见反馈">意见反馈</a></li>
+									<!-- <li class="last"><a href="conent/sensitiveWord.html"
+										target="showframe" id="敏感词">敏感词</a></li> -->
+								</ul></li>
+							<li><a href="#" class="inactive" id="finance">财务管理</a>
+								<ul style="display: none">
+									<li class="last"><a href="finance/platform.html"
+										target="showframe" id="平台流水">平台流水</a></li>
+									<li class="last"><a href="finance/userFinance.html"
+										target="showframe" id="会员财务">会员财务</a></li>
+									<li class="last"><a href="finance/allianceFinance.html"
+										target="showframe" id="加盟商财务">加盟商财务</a></li>
+									<li class="last"><a href="finance/giftRecycle.html"
+										target="showframe" id="礼物回收记录">礼物回收记录</a></li>
+									<!-- <li class="last"><a href="finance/loveRecord.html"
+										target="showframe" id="爱心值记录">爱心值记录</a></li>
+									<li class="last"><a href="finance/eggRecord.html"
+										target="showframe" id="鸟蛋记录">鸟蛋记录</a></li> -->
+									<li class="last"><a href="finance/userDeposit.html"
+										target="showframe" id="会员提现">会员提现</a></li>
+									<li class="last"><a href="finance/allianceDeposit.html"
+										target="showframe" id="加盟商提现">加盟商提现</a></li>
+								</ul></li>
+						</ul>
+						<ul style="display: none;">
+							<li class="last"><a
+								href="customerservice/customerservice.html" id="客服"
+								target="showframe">
+									<button id="kefuBtn" type="button" style="display: none;"></button>
+									客服
+							</a></li>
+						</ul>
+					</div>
+				</div>
+
+				//中部的中部的中部的中部
+				<div data-options="region:'center'" id="mainPanle"
+					style="overflow: hidden;">
+					<div class="easyui-tabs" fit="true" border="false" id="tabs"></div>
+				</div>
+
+			</div>
+		</div>
+
+		//中部的中部
+		<div data-options="region:'center'" id="mainPanle"
+			style="overflow: hidden;">
+			<div class="easyui-tabs" fit="true" border="false" id="tabs"></div>
+		</div>
+	</div>
+
+	//南部
+	<div data-options="region:'south'"
+		style="height: 18px;border:none; background-color: #E0ECFF; overflow: hidden; text-align: center;">
+		<div style="font-size: 12px; height: 18px; color: #000;">建设单位：广州何人谈网络信息开发有限公司</div>
+	</div>
+
+
+	<div id="mm" class="easyui-menu" style="width: 120px;">
+		<div id="mm-tabclose" data-options="name:1,iconCls:'icon-cancel'">关闭</div>
+		<div id="mm-tabcloseall" data-options="name:2">关闭全部</div>
+		<div id="mm-tabcloseother" data-options="name:3">关闭其他的页面</div>
+		<div class="menu-sep"></div>
+		<div id="mm-tabcloseleft" data-options="name:4">关闭左边的所有页面</div>
+		<div id="mm-tabcloseright" data-options="name:5">关闭右边的所有页面</div>
+		<div id="mm-tabclosrefresh"
+			data-options="name:6,iconCls:'icon-reload'">刷新</div>
+	</div>
+
+
+
+	<div id="changePW" class="easyui-dialog" title="修改密码"
+		style="width:280px;height:220px;"
+		data-options="closed:true,buttons:'#update-buttons',modal:true">
+		<div id="tab1" class="tab">
+			<form method="post" name="myform" id="cpf">
+				<table style="margin: 10px auto;">
+					<tr>
+						<td style="text-align: right;">用户名：</td>
+						<td><input class="easyui-textbox" name="membername"
+							id="membername" /></td>
+					</tr>
+					<tr>
+						<td style="text-align: right;">原密码：</td>
+						<td><input class="easyui-textbox" name="pwd" type="password"
+							id="pwd" data-options="required:true,missingMessage:'请输入原密码'" />
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: right;">新密码：</td>
+						<td><input class="easyui-textbox" type="password"
+							id="newPassword"
+							data-options="required:true,missingMessage:'请输入新密码'" /></td>
+					</tr>
+					<tr>
+						<td style="text-align: right;">确认密码：</td>
+						<td><input class="easyui-textbox" name="reNewPassword"
+							type="password" id="reNewPassword"
+							data-options="required:true,missingMessage:'请再次输入新密码'"
+							validType="eqPassword['#newPassword']"></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:24px;" id="update-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:changePassword();">确定</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#changePW').dialog('close');">取消</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

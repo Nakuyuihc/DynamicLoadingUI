@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>测试</title>
+<link rel="stylesheet" type="text/css"
+	href="/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/common/jquery-easyui-1.5.3/jquery.qrcode.min.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="/gift-fly/demo.js"></script>
+</head>
+<body> 
+<div id="qrcode"></div> 
+<a id="download" download="qrcode.jpg"></a> 
+<button id="save">save</button> 
+</body> 
+</html> 
+<script> 
+jQuery('#qrcode').qrcode({width: 500,height: 500,text: "http://www.baidu.com"}); 
+$("#save").click(function(){ 
+var canvas = $('#qrcode').find("canvas").get(0); 
+var url = canvas.toDataURL('image/jpeg'); 
+$("#download").attr('href', url).get(0).click(); 
+return false; 
+}); 
+</script>

@@ -12,12 +12,12 @@
     <artifactId>DynamicLoadingUI-manager-mapper</artifactId>
 
     <dependencies>
-        <!-- taotao-manage-pojo依赖
+        <!-- DynamicLoadingUI-manage-pojo依赖-->
         <dependency>
             <groupId>com.nak</groupId>
-            <artifactId>DynamicLoadingUI--manage-pojo</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>-->
+            <artifactId>DynamicLoadingUI-manager-pojo</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <!-- Mybatis -->
         <dependency>
