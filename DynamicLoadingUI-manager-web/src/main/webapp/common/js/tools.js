@@ -80,9 +80,9 @@ jQuery.extend(jQuery.messager.defaults, {
  */
 function loginCheck1() {
 	var username = ReadCookie("username");
-	if (username == null || username == "" || username.length == 0) {
+	/*if (username == null || username == "" || username.length == 0) {
 		window.top.location = "/gift-fly/login.html";
-	}
+	}*/
 }
 
 /**
@@ -90,9 +90,9 @@ function loginCheck1() {
  */
 function loginCheck2() {
 	var username = ReadCookie("username");
-	if (username == null || username == "" || username.length == 0) {
+	/*if (username == null || username == "" || username.length == 0) {
 		window.top.location = "../../login.html";
-	}
+	}*/
 }
 /**
  * 控制各系统的显示和隐藏
