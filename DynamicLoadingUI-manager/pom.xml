@@ -12,11 +12,10 @@
     <artifactId>DynamicLoadingUI-manager</artifactId>
     <packaging>pom</packaging>
     <modules>
-
         <module>DynamicLoadingUI-manager-pojo</module>
-        <module>DynamicLoadingUI-manager-service</module>
         <module>DynamicLoadingUI-manager-mapper</module>
         <module>DynamicLoadingUI-manager-service</module>
+        <module>DynamicLoadingUI-manager-interface</module>
     </modules>
 
     <dependencies>
