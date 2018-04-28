@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>商品分类</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript" src="/gift-fly/product/js/productClassify.js"></script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+tr {
+	height: 30px;
+}
+.tbContent {
+	height: 30px;
+	width: 180px;
+}
+#state {
+	width: 130px;
+}
+input[type="text"]::-ms-clear {
+	display: none;
+}
+.tree {
+	padding: 5px;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="west" split="true" title="商品父分类列表"
+		style="width:240px;padding:1px;overflow:auto;">
+		<ul id="parlist" class="easyui-tree">
+		</ul>
+	</div>
+	<div region="center" id="mainPanle" style="overflow:auto;">
+		<form name="carForm" id="carForm">
+			<div class="searchPanel" id="filter">
+				<table class="search_item" style="width: 90%;">
+					<tr>
+						<td class="tbContent"><a href="javascript:void(0)"
+							class="easyui-linkbutton" iconCls="icon-add" plain="true"
+							onclick="addType()">添加</a> <a href="javascript:void(0)"
+							class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+							onclick="updateType()">编辑</a> <a href="javascript:void(0)"
+							class="easyui-linkbutton" iconCls="icon-cancel" plain="true"
+							onclick="delType()">删除</a></td>
+					</tr>
+				</table>
+			</div>
+		</form>
+		<div class="tableDiv">
+			<table id="protypedg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,pagination:true,method:'post',
+			striped:true,fitColumns:true"
+				style="width:100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'name',width:50,align:'center'">分类名称</th>
+						<th data-options="field:'deep',width:20,align:'center'">分类排序</th>
+						<th
+							data-options="field:'parentId',width:50,align:'center',formatter:formatterYX">父分类名称</th>
+						<th
+							data-options="field:'imagePath',width:50,align:'center',formatter:formatterTP">分类图片</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="addtype" class="easyui-dialog" title="添加分类"
+			style="padding:20px;"
+			data-options=" iconCls: 'icon-save', buttons: '#add-buttons',closed:true,modal:true">
+			<form method="post" id="typeaf">
+				<table align="center">
+					<tr>
+						<td style="padding-right:5px;text-align:right;">分类名称：</td>
+						<td><input class="easyui-textbox" id="typename"
+							name="typename" style="width: 150px"
+							data-options="required:true, missingMessage:'请输入类型名称',validType:'maxlength[10]'" /><span
+							id="usernameCheckMsg"></span></td>
+					</tr>
+					<tr>
+						<td style="padding-right:5px;text-align:right;">上级分类：</td>
+						<td><input class="easyui-combobox" id="parname"
+							name="parname" style="width: 150px" editable="false" addClear
+							data-options="valueField:'id',textField:'text'"></input>
+					</tr>
+					<tr>
+						<td style="padding-right:5px;text-align:right;">分类排序：</td>
+						<td><input class="easyui-textbox" id="typesort"
+							name="typesort" style="width: 150px"></input>
+					</tr>
+					<tr>
+						<td style="padding-right:5px;text-align:right;">分类图片：</td>
+						<td><input id="addimg" type="text"
+							style="width: 150px;"></input>
+					</tr>
+					<tr>
+						<td></td>
+						<td id="showImg" style="position:relative;"></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center" id="add-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:saveType();">保存</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#addtype').dialog('close');">取消</a>
+			</div>
+		</div>
+		<div id="updatetype" class="easyui-dialog" title="编辑分类"
+			style="padding:20px;"
+			data-options=" iconCls: 'icon-edit', buttons: '#up-buttons',closed:true,modal:true">
+			<form method="post" id="updatatypeform">
+				<table align="center">
+					<tr>
+						<td style="padding-right:5px;text-align:right;">分类名称：</td>
+						<td><input class="easyui-textbox" id="uptypename"
+							name="typename" style="width: 150px"
+							data-options="required:true, missingMessage:'请输入分类名称',validType:'maxlength[20]'" /><span
+							id="upusernameCheckMsg"></span></td>
+					</tr>
+					<tr>
+						<td style="padding-right:5px;text-align:right;">上级分类：</td>
+						<td><input class="easyui-combobox" id="upparname"
+							name="parname" style="width: 150px" editable="false"
+							data-options="valueField:'id',textField:'text'"></input>
+					</tr>
+					<tr>
+						<td style="padding-right:5px;text-align:right;">分类排序：</td>
+						<td><input class="easyui-textbox" id="uptypesort"
+							name="typesort" style="width: 150px"></input>
+					</tr>
+					<tr>
+						<td style="padding-right:5px;text-align:right;">分类图片：</td>
+						<td><input id="upimg" type="text" style="width: 150px;"></input>
+					</tr>
+					<tr>
+						<td></td>
+						<td id="showupImg" style="position:relative;"></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center" id="up-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:saveUpdate();">保存</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#updatetype').dialog('close');">取消</a>
+			</div>
+		</div>
+		<div id="upload-progressbar" class="easyui-window" closable="false"
+			collapsible="false" minimizable="false" maximizable="false"
+			title="图片正在努力上传中..." style="padding: 10px 10px;"
+			data-options="closed:true,modal:true">
+			<div id="progressBarID" style="height: 30px; width: 500px;"></div>
+			<a id="btnID" href="#" style="display: none;"></a>
+		</div>
+	</div>
+</body>
+</html>

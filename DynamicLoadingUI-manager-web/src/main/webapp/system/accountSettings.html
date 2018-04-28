@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>帐号管理</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/system/js/accountSettings.js"></script>
+<style type="text/css">
+.audit {
+	margin-left: 5px;
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	padding: 0px 7px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 2px;
+	border-radius: 5px;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	font-size: 13px;
+	border: 1px solid #fff;
+}
+
+.tableDiv {
+	margin: 7px 7px 0 7px;
+}
+
+.scrollbar {
+	overflow: auto;
+	width: 200px;
+	height: 200px;
+	scrollbar-arrow-color: #003042;
+	scrollbar-base-color: #003042;
+	border: 1px solid #78C4F5;
+	margin-bottom: 5px;
+}
+</style>
+<script type="text/javascript">
+	/**
+	 * 两次密码验证扩展
+	 */
+	$.extend($.fn.validatebox.defaults.rules, {
+		eqPassword : { //扩展验证两次密码 
+			validator : function(value, param) {
+				return value == $(param[0]).val();
+			},
+			message : '密码不一致！'
+		}
+	});
+</script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'center'">
+		<div style="margin: 5px 0 0 10px;">
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-add" plain="true" onclick="addAcc()">新增帐号</a>
+		</div>
+		<div class="tableDiv">
+			<table id="accountdg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,pagination:true,fitColumns:true,method:'post',striped:true">
+				<thead>
+					<tr>
+						<th data-options="field:'name',width:50,align:'center'">帐号名</th>
+						<th data-options="field:'rolename',width:50,align:'center'">角色</th>
+						<th data-options="field:'createdDate',width:50,align:'center'">加入时间</th>
+						<th
+							data-options="field:'status',width:50,align:'center',formatter:formatterZT">状态</th>
+						<th
+							data-options="field:'deleted',width:80,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="addAccount" class="easyui-dialog" title="新增帐号"
+			style="padding: 10px;width:300px;height:220px;"
+			data-options=" iconCls: 'icon-save', buttons: '#add-buttons',closed:true,modal:true">
+			<form method="post" id="add_from">
+				<table align="center">
+					<tr>
+						<td style="text-align:right;">帐号名：</td>
+						<td>
+							<input class="easyui-textbox" id="addname" name="name"
+								data-options="required:true, missingMessage:'请输入帐号名',validType:'maxlength[10]'" />
+							<span id="usernameCheckMsg"></span>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: right;">密码：</td>
+						<td>
+							<input class="easyui-textbox" type="password" id="password"
+								data-options="required:true,missingMessage:'请输入密码'" />
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:right;">确认密码：</td>
+						<td>
+							<input class="easyui-textbox" name="rePassword" type="password"
+								id="rePassword"
+								data-options="required:true,missingMessage:'请再次输入密码'"
+								validType="eqPassword['#password']">
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:right;">用户角色：</td>
+						<td>
+							<input class="easyui-combobox" id="addyhjs" name="rolecode"
+								style="width: 150px" editable="false"
+								data-options="valueField:'id',textField:'name'"></input>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:30px;" id="add-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:saveInfo();">保存</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#addAccount').dialog('close');">取消</a>
+			</div>
+		</div>
+		<div id="updateAccount" class="easyui-dialog" title="编辑帐号"
+			style="padding: 10px;width:300px;height:220px;"
+			data-options=" iconCls: 'icon-edit', buttons: '#up-buttons',closed:true,modal:true">
+			<form method="post" id="update_from">
+				<table align="center">
+					<tr>
+						<td style="text-align: right;">帐号：</td>
+						<td id="upname"></td>
+					</tr>
+					<tr>
+						<td style="text-align: right;">密码：</td>
+						<td>
+							<input class="easyui-textbox" type="password" id="uppassword"
+								data-options="required:true,missingMessage:'请输入密码'" />
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: right;">确认密码：</td>
+						<td>
+							<input class="easyui-textbox" name="rePassword" type="password"
+								id="uprePassword"
+								data-options="required:true,missingMessage:'请再次输入密码'"
+								validType="eqPassword['#uppassword']">
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align:right;">用户角色：</td>
+						<td>
+							<input class="easyui-combobox" id="upyhjs" name="rolecode"
+								editable="false" data-options="valueField:'id',textField:'name'"></input>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:30px;" id="up-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:updateInfo();">保存</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#updateAccount').dialog('close');">取消</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>短信日志管理</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+	<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/messagelog.js"></script>
+<style type="text/css">
+.tableDiv {margin: 10px 10px 0 10px;}
+tr {height: 24px;}
+.search_item{margin:10px 10px 0 10px;}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow:auto;">
+		<form name="carForm" id="carForm">
+			<div class="searchPanel" id="filter">
+				<table class="search_item">
+					<tr>
+						<td class="tbTitle">手机号：</td>
+						<td class="tbContent"><input name="xm" id="xm" style="width:150px;" />
+						</td>
+						<td class="tbTitle">时间：</td>
+						<td class="time"><input class="Wdate" type="text"
+							name="startTime" id="startTime"
+							style="width:182px;border-radius:5px;"
+							onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'startTime\')||\'%y-%M-%d\'}'})"></input>
+						</td>
+						<td><a href="javascript:void(0)"
+							class="easyui-linkbutton" iconCls="icon-search" plain="true"
+							onclick="select();">查询</a> <a href="javascript:void(0)"
+							class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+							onclick="clean();">清空</a></td>
+					</tr>
+				</table>
+			</div>
+		</form>
+		<div class="tableDiv">
+			<table id="logdg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,pagination:true,fitColumns:true,method:'post',
+			striped:true ">
+				<thead>
+					<tr>
+						<th data-options="field:'mobile',width:25,align:'center'">发送对象</th>
+						<th data-options="field:'code',width:20,align:'center'">发送内容</th>
+						<th data-options="field:'type',width:50,align:'center',formatter:formatterLX">发送类型</th>
+						<th data-options="field:'count',width:20,align:'center'">发送次数</th>
+						<th data-options="field:'createdAt',width:20,align:'center'">发送时间</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

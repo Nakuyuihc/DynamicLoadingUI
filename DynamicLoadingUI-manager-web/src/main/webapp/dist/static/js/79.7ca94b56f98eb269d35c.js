@@ -1,0 +1,2 @@
+webpackJsonp([79],{lbFG:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var l={render:function(){var e=this.$createElement,t=this._self._c||e;return t("div",{attrs:{id:"aboutus"}},[t("common-header",{attrs:{title:"联络我们"}})],1)},staticRenderFns:[]},r=n("VU/8")(null,l,!1,null,null,null);t.default=r.exports}});
+//# sourceMappingURL=79.7ca94b56f98eb269d35c.js.map

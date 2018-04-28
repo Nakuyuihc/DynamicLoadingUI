@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>用户评论</title>
+
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+
+<link rel="stylesheet" type="text/css"
+	href="/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/common/js/service.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/evaluate/js/evaluateList.js"></script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+
+.tdConent {
+	padding: 5px 20px 0 10px;
+	text-align: left;
+}
+
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 90px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 0;
+	border-radius: 5px;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	border: 1px solid #fff;
+}
+
+.hF {
+	height: 50px;
+}
+
+#div_img {
+	display: flex;
+	justify-content: space-between;
+}
+
+.img_star {
+	width: 20px;
+	height: 20px;
+}
+
+.image_Path {
+	width: 30px;
+	height: 30px;
+}
+
+.foot {
+	overflow: hidden;
+	text-align: center;
+	margin: 0;
+	border: 0;
+	-moz-border-radius: 0 0 0 0;
+	-webkit-border-radius: 0 0 0 0;
+	border-radius: 0 0 0 0;
+}
+
+#head {
+	text-align: center;
+}
+
+.divCenter {
+	display: flex;
+	justify-content: space-between;
+	font-size: 16px;
+	padding-top: 10px;
+}
+
+#div_head {
+	font-size: 16px;
+	border-bottom: 1px solid #000;
+	padding-bottom: 15px;
+	display: flex;
+	justify-content: flex-start;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow: auto;">
+		<div class="searchPanel" id="filter">
+			<table class="search_item">
+				<tr>
+					<td class="tdConent">
+						<select id="cmbAction" class="easyui-combobox" name="cmbAction"
+							data-options="editable:false" style="width:100px;">
+							<option value="1">加盟商名称：</option>
+							<option value="2">商品名称：</option>
+						</select>
+						<input id="searchName" class="easyui-searchbox"
+							style="width: 200px;"
+							data-options="searcher:clearSerachbox,prompt:'请输入加盟商名称进行查询'"></input>
+						<a href="javascript:void(0)" class="easyui-linkbutton"
+							iconCls="icon-search" plain="true"
+							onclick="findEcalListByNameAndAction()">查询</a>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="javascript:void(0)" class="easyui-linkbutton"
+							plain="true" onclick="showOrCloseEval(1)">隐藏</a>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="javascript:void(0)" class="easyui-linkbutton"
+							plain="true" onclick="showOrCloseEval(0)">显示</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableDiv">
+			<table id="evalListDg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,method:'post',pagination:true,
+					striped:true,fitColumns:true"
+				style="width: 100%;">
+				<thead>
+					<tr>
+						
+						<th data-options="field:'nickName',width:20,align:'center'">用户昵称</th>
+						<th data-options="field:'prodName',width:30,align:'center'">评论对象</th>
+						<th data-options="field:'orgName',width:30,align:'center'">加盟商</th>
+						<th
+							data-options="field:'status',width:20,align:'center',formatter:formatterZT">状态</th>
+						<th
+							data-options="field:'deleted',width:50,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="showEvalDetailInfo" class="easyui-dialog" title="申请详情"
+			style="width: 600px; height: 440px; padding: 15px; position: relative;"
+			data-options="closed:true,modal:true">
+			<div>
+				<div id="div_head">
+					<div>
+						<img class="image_Path" src="img/star.png"
+							id="div_head_image_Path" />
+					</div>
+					<div id="head"></div>
+				</div>
+				<div class="divCenter">
+					<div id="div_content"></div>
+					<div id="div_img">
+						<img class="img_star" src="img/star.png" id="star1" /> <img
+							class="img_star" src="img/star.png" id="star2" /> <img
+							class="img_star" src="img/star.png" id="star3" /> <img
+							class="img_star" src="img/star.png" id="star4" /> <img
+							class="img_star" src="img/star.png" id="star5" />
+					</div>
+				</div>
+				<div></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

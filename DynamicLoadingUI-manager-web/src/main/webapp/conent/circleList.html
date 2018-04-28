@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>圈子列表</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/service.js"></script>
+<script type="text/javascript" src="/gift-fly/conent/js/circleList.js"></script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+
+.tdConent {
+	padding: 5px 20px 0 10px;
+	text-align: left;
+}
+
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 90px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 0;
+	border-radius: 5px;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	border: 1px solid #fff;
+}
+
+.authorImagePath {
+	width: 150px;
+	height: 150px;
+}
+
+.hF {
+	height: 50px;
+}
+
+.img_div {
+	display: flex;
+	justify-content: space-between;
+}
+
+li {
+	list-style-type: none;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow: auto;">
+		<div class="searchPanel" id="filter">
+			<table class="search_item">
+				<tr>
+					<td class="tdConent">
+						发布时间 &nbsp; &nbsp;
+						<input class="Wdate" type="text" name="startTime" id="startTime"
+							style="width: 182px; border-radius: 5px;"
+							onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"></input>
+						&nbsp; &nbsp;至 &nbsp; &nbsp;
+						<input class="Wdate" type="text" name="endTime" id="endTime"
+							style="width: 182px; border-radius: 5px;"
+							onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d',minDate:'#F{$dp.$D(\'startTime\')}'})"></input>
+						&nbsp; &nbsp; &nbsp; &nbsp;
+						<input id="search_nameOrPhone" class="easyui-searchbox"
+							style="width: 280px;"
+							data-options="searcher : clearSerachbox,prompt:'请输入用户名、电话号码、用户编号'"></input>
+						&nbsp; &nbsp; &nbsp; &nbsp;
+						<a href="javascript:void(0)" class="easyui-linkbutton"
+							iconCls="icon-search" plain="true"
+							onclick="findCircleByNameOrPhone()">查询</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableDiv">
+			<table id="circleListDg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,method:'post',pagination:true,
+					striped:true,fitColumns:true"
+				style="width: 100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'createdAt',width:30,align:'center'">发布时间</th>
+						<th data-options="field:'content',width:50,align:'center'">发布内容</th>
+						<th data-options="field:'userId',width:20,align:'center'">用户id</th>
+						<th data-options="field:'userName',width:30,align:'center'">用户昵称</th>
+						<th data-options="field:'mobile',width:30,align:'center'">手机号码</th>
+						<th data-options="field:'statComment',width:20,align:'center'">评论数</th>
+						<th data-options="field:'statPraise',width:20,align:'center'">点赞数</th>
+						<th data-options="field:'statGift',width:20,align:'center'">收礼数</th>
+						<th
+							data-options="field:'status',width:70,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+
+		<div id="showCircledetailInfo" class="easyui-dialog" title="圈子动态详细信息"
+			style="width: 800px; height: 440px; padding: 15px; position: relative;"
+			data-options="closed:true,modal:true">
+			<table>
+				<tr>
+					<td>用户id</td>
+					<td id="td_userId"></td>
+					<td rowspan="3">
+						<div style="display: flex;justify-content: flex-end;">
+							<img class="authorImagePath" alt="" id="authorImg"
+								src="/gift-fly/common/images/img.jpg">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>用户昵称</td>
+					<td id="td_userName"></td>
+				</tr>
+				<tr>
+					<td>联系电话</td>
+					<td id="td_Mobile"></td>
+				</tr>
+				<tr>
+					<td class="hF">发布时间</td>
+					<td id="td_CreatedAt"></td>
+				</tr>
+				<tr>
+					<td class="hF">评论数</td>
+					<td id="td_CommentNum"></td>
+				</tr>
+				<tr>
+					<td class="hF">点赞数</td>
+					<td id="td_PraiseNum"></td>
+				</tr>
+				<tr>
+					<td class="hF">礼物数</td>
+					<td id="td_GiftNum"></td>
+				</tr>
+				<tr>
+					<td class="hF">动态内容</td>
+					<td rowspan="2" colspan="2">
+						<div id="td_Content"
+							style='width: 670px;display:block;word-break: break-all;word-wrap: break-word;'>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="hF"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td colspan="2">
+						<div class="img_div" id="img_div1"></div>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td colspan="2">
+						<div class="img_div" id="img_div2"></div>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td colspan="2">
+						<div class="img_div" id="img_div3"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="hF" colspan="3">评论记录</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<div>
+							<ul id="commList" style="-webkit-padding-start: 10px;">
+
+							</ul>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

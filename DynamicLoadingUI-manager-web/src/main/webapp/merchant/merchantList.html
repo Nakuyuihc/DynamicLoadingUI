@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>加盟商列表</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/merchant/js/merchantList.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/merchant/js/merchantaccount.js"></script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 60px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 0;
+	border-radius: 5px;
+}
+.audit:HOVER {
+	background: #748ccb;
+	border: 1px solid #fff;
+}
+.search_item {
+	float: left;
+	margin-left: 10px;
+}
+.property {
+	width: 100px;
+	text-align: right;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow: auto;">
+		<div class="searchPanel" id="filter">
+			<table class="search_item">
+				<tr>
+					<td class="tdConent">
+						<input id="merchantName" addClear
+						class="easyui-textbox" style="width:200px;"
+						data-options="prompt:'请输入商家名称进行查询'"></input>
+						<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="findByMerchantName()">查询</a>
+					</td>
+				</tr>
+			</table>
+			<div style="margin:5px 0 0 350px;">
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					iconCls="icon-add" plain="true" onclick="addMerchant()">添加加盟商</a>
+			</div>
+		</div>
+		<div class="tableDiv">
+			<table id="merchantListdg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,method:'post',pagination:true,
+					striped:true,fitColumns:true"
+				style="width: 100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'id',width:10,align:'center'">ID</th>
+						<th data-options="field:'orgName',width:40,align:'center'">加盟商名称</th>
+						<th
+							data-options="field:'type',width:20,align:'center',formatter:formatterLX">加盟商类型</th>
+						<th data-options="field:'contactName',width:20,align:'center'">联系人</th>
+						<th data-options="field:'contactTel',width:20,align:'center'">联系人电话</th>
+						<th data-options="field:'weight',width:10,align:'center'">供应商排序</th>
+						<th
+							data-options="field:'operation',width:40,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="addmerchantinfo" class="easyui-dialog" title="添加加盟商"
+			style="padding: 20px 20px; position: relative;"
+			data-options="closed:true,buttons: '#add-buttons',modal:true">
+			<form method="post" id="addMfrom">
+				<table id="addinfotable">
+					<tr class="trContent">
+						<td class="property">加盟商名称：</td>
+						<td><input class="easyui-textbox" name="orgName" id="addorgName"
+							data-options="required:true, missingMessage:'请输入加盟商名称',validType:'length[1,10]'" /></td>
+						<td class="property">加盟商电话：</td>
+						<td><input class="easyui-textbox" name="orgTel" id="addorgTel"
+							data-options="required:true, missingMessage:'请输入加盟商电话',validType:'telNum'" /></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property">加盟商地址：</td>
+						<td colspan="3"><input class="easyui-textbox" name="address"
+							id="addAddress" style="width: 410px;"
+							data-options="required:true, missingMessage:'请输入加盟商地址',validType:'length[1,50]'" /></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property">负责人：</td>
+						<td><input class="easyui-textbox" name="contactName"
+							id="addcontactName"
+							data-options="required:true, missingMessage:'请输入负责人名字',validType:'length[1,5]'" /></td>
+						<td class="property">联系电话：</td>
+						<td><input class="easyui-textbox" name="contactTel"
+							id="addcontactTel"
+							data-options="required:true, missingMessage:'请输入负责人电话',validType:'telNum'" /></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property">加盟商类型：</td>
+						<td><input class="easyui-combobox" name="type" id="addtype"
+							style="width: 150px" editable="false"
+							data-options="valueField:'id',textField:'name'"></input>
+						<td class="property">排序：</td>
+						<td><input class="easyui-numberbox" name="weight" id="addweight"
+						data-options="required:true, missingMessage:'请输入排序',validType:'length[1,2]'"/></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property">后台帐号：</td>
+						<td><input class="easyui-textbox" name="openid" id="adduser" 
+						data-options="required:true, missingMessage:'请输入后台帐号',validType:'length[1,10]'"/></td>
+						<td class="property">后台密码：</td>
+						<td><input class="easyui-passwordbox" name="password"
+							id="addpassword"
+							data-options="required:true, missingMessage:'请设置后台密码',validType:'passwordValid'" /></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property">logo：</td>
+						<td><input id="addlogo" type="text" style="width: 150px;" 
+						data-options="required:true, missingMessage:'请上传加盟商logo'"></td>
+						<td class="property"><!-- 广告图： --></td>
+						<td><!-- <input id="adimg" type="text" style="width: 150px;"> --></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property" colspan="2" id="showlogo" style="position:relative;"></td>
+						<td class="property" colspan="2" id="showimg" style="position:relative;"></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property">加盟商描述：</td>
+						<td colspan="3"><input class="easyui-textbox"
+							multiline="true" id="adddescription" name="description"
+							style="width:400px;height:60px;border:1px solid #3D4F71;resize: none;" 
+							data-options="required:false, missingMessage:'请输入商品的描述',validType:'maxlength[120]'"></input></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:24px;" id="add-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:saveAddInfo();">保存</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#addmerchantinfo').dialog('close');">取消</a>
+			</div>
+		</div>
+		<div id="showdetailinfo" class="easyui-dialog" title="加盟商详细信息"
+			style="padding: 20px 20px; position: relative;"
+			data-options="closed:true,buttons: '#update-buttons',modal:true">
+			<form method="post" id="updateMfrom">
+				<table id="infotable">
+					<tr class="trContent">
+						<td class="property">加盟商编号：</td>
+						<td><input class="easyui-textbox" disabled="true" id="mid"
+							name="id" /></td>
+						<td class="property">加盟商名称：</td>
+						<td><input class="easyui-textbox" name="orgName" id="orgName" 
+						data-options="required:true, missingMessage:'请输入加盟商名称',validType:'length[1,10]'" /></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property">加盟商电话：</td>
+						<td><input class="easyui-textbox" name="orgTel" id="orgTel"
+						 data-options="required:true, missingMessage:'请输入加盟商电话',validType:'telNum'"/></td>
+						<td class="property">加盟日期：</td>
+						<td><input class="easyui-textbox" disabled="true"
+							name="birthday" id="birthday" /></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property">加盟商地址：</td>
+						<td colspan="3"><input class="easyui-textbox" name="address"
+							id="address" style="width: 400px;" 
+							data-options="required:true, missingMessage:'请输入加盟商地址',validType:'length[1,50]'"/></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property">负责人：</td>
+						<td><input class="easyui-textbox" name="contactName" id="contactName" 
+						data-options="required:true, missingMessage:'请输入负责人名字',validType:'length[1,5]'"/></td>
+						<td class="property">联系电话：</td>
+						<td><input class="easyui-textbox" name="contactTel" id="contactTel"
+						 data-options="required:true, missingMessage:'请输入负责人电话',validType:'telNum'"/></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property">加盟商类型：</td>
+						<td><input class="easyui-textbox" disabled="true" name="merchanttype" 
+						 id="merchanttype"/></td>
+						<td class="property">排序：</td>
+						<td><input class="easyui-textbox" name="weight" id="weight" /></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property">后台帐号：</td>
+						<td><input class="easyui-textbox" disabled="true"
+							name="username" id="usersign" /></td>
+						<td class="property">后台密码：</td>
+						<td><input class="easyui-passwordbox" disabled="true"
+							name="password" /></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property">logo：</td>
+						<td><input id="uplogo" type="text" style="width: 150px;"></td>
+						<td class="property"><!-- 广告图： --></td>
+						<td><!-- <input id="upimg" type="text" style="width: 150px;"> --></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property" colspan="2" id="showuplogo" style="position:relative;"></td>
+						<td class="property" colspan="2" id="showupimg" style="position:relative;"></td>
+					</tr>
+					<tr class="trContent">
+						<td class="property">加盟商描述：</td>
+						<td colspan="3">
+						<input class="easyui-textbox" multiline="true" id="description" name="description"
+							style="width:400px;height:60px;border:1px solid #3D4F71;resize: none;" 
+							data-options="required:false, missingMessage:'请输入商品的描述',validType:'maxlength[120]'">
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:24px;" id="update-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:saveupdateInfo();">保存</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#showdetailinfo').dialog('close');">取消</a>
+			</div>
+		</div>
+		<div id="merchantAccount" class="easyui-dialog" title="加盟商账户"
+			style="width:70%;height:400px;" data-options="closed:true,modal:true">
+			<div style="margin: 5px 10px;">
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					iconCls="icon-add" plain="true" onclick="addAccount()">新增账户</a>
+			</div>
+			<div id="accountList">
+				<table id="merchantaccountdg" class="easyui-datagrid tablelist"
+					data-options="rownumbers:true,singleSelect:true,method:'post',
+					striped:true,fitColumns:true"
+					style="width:100%;">
+					<thead>
+						<tr>
+							<th data-options="field:'bankName',width:20,align:'center'">开户行名称</th>
+							<th data-options="field:'branchName',width:30,align:'center'">支行名称</th>
+							<th data-options="field:'accountIdCode',width:20,align:'center'">银行帐号</th>
+							<th data-options="field:'accountName',width:10,align:'center'">持卡人</th>
+							<th data-options="field:'mobile',width:15,align:'center'">手机号</th>
+							<th
+								data-options="field:'operation',width:20,align:'center',formatter:formatterACZ">操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div id="addMaccount" class="easyui-dialog" title="添加加盟商账户"
+				style="width: 320px; height: 260px; padding: 10px 0; position: relative;"
+				data-options="closed:true,buttons: '#addm-buttons',modal:true">
+				<form method="post" id="addMaccountfrom">
+					<table id="maccounttable">
+						<tr class="trContent">
+							<td class="property">开户行名称：</td>
+							<td><input class="easyui-combobox" id="bankname"
+								name="bankname" data-options="valueField:'id',textField:'name'" /></td>
+						</tr>
+						<tr class="trContent">
+							<td class="property">支行名称：</td>
+							<td><input class="easyui-textbox" name="branchName"
+								id="branchName"
+								data-options="required:true, missingMessage:'请输入支行名称',validType:'length[1,30]'" /></td>
+						</tr>
+						<tr class="trContent">
+							<td class="property">银行帐号：</td>
+							<td><input class="easyui-numberbox" name="accountIdCode"
+								id="accountIdCode"
+								data-options="required:true, missingMessage:'请输入银行帐号',validType:'bankcard'" /></td>
+						</tr>
+						<tr class="trContent">
+							<td class="property">持卡人：</td>
+							<td><input class="easyui-textbox" name="accountName"
+								id="accountName"
+								data-options="required:true, missingMessage:'请输入持卡人名称',validType:'length[1,5]'" /></td>
+						</tr>
+						<tr class="trContent">
+							<td class="property">持卡人电话：</td>
+							<td><input class="easyui-numberbox" name="usermobile"
+								id="usermobile"
+								data-options="required:true, missingMessage:'请输入持卡人电话',validType:'phoneNum'" /></td>
+						</tr>
+					</table>
+				</form>
+				<div style="text-align:center;height:24px;" id="addm-buttons">
+					<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+						onclick="javascript:savemaccountInfo();">保存</a> <a href="#"
+						class="easyui-linkbutton" iconCls="icon-cancel"
+						onclick="javascript:$('#addMaccount').dialog('close');">取消</a>
+				</div>
+			</div>
+			<div id="updateMaccount" class="easyui-dialog" title="编辑加盟商账户"
+				style="width: 320px; height: 260px; padding: 10px 0; position: relative;"
+				data-options="closed:true,buttons: '#updatem-buttons',modal:true">
+				<form method="post" id="upMaccountfrom">
+					<table>
+						<tr class="trContent">
+							<td class="property">开户行名称：</td>
+							<td><input class="easyui-combobox" id="upbankname"
+								name="bankname" data-options="valueField:'id',textField:'name'" /></td>
+						</tr>
+						<tr class="trContent">
+							<td class="property">支行名称：</td>
+							<td><input class="easyui-textbox" name="branchName"
+								id="upbranchName"
+								data-options="required:true, missingMessage:'请输入支行名称',validType:'length[1,30]'" /></td>
+						</tr>
+						<tr class="trContent">
+							<td class="property">银行帐号：</td>
+							<td><input class="easyui-numberbox" name="accountIdCode"
+								id="upaccountIdCode"
+								data-options="required:true, missingMessage:'请输入银行帐号',validType:'bankcard'" /></td>
+						</tr>
+						<tr class="trContent">
+							<td class="property">持卡人：</td>
+							<td><input class="easyui-textbox" name="accountName"
+								id="upaccountName"
+								data-options="required:true, missingMessage:'请输入持卡人名称',validType:'length[1,5]'" /></td>
+						</tr>
+						<tr class="trContent">
+							<td class="property">持卡人电话：</td>
+							<td><input class="easyui-numberbox" name="usermobile"
+								id="upusermobile"
+								data-options="required:true, missingMessage:'请输入持卡人电话',validType:'phoneNum'" /></td>
+						</tr>
+					</table>
+				</form>
+				<div style="text-align:center;height:24px;" id="updatem-buttons">
+					<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+						onclick="javascript:updatemaccountInfo();">保存</a> <a href="#"
+						class="easyui-linkbutton" iconCls="icon-cancel"
+						onclick="javascript:$('#updateMaccount').dialog('close');">取消</a>
+				</div>
+			</div>
+		</div>
+		<div id="upload-progressbar" class="easyui-window" closable="false"
+			collapsible="false" minimizable="false" maximizable="false"
+			title="图片正在努力上传中..." style="padding: 10px 10px;"
+			data-options="closed:true,modal:true">
+			<div id="progressBarID" style="height: 30px; width: 500px;"></div>
+			<a id="btnID" href="#" style="display: none;"></a>
+		</div>
+	</div>
+</body>
+</html>

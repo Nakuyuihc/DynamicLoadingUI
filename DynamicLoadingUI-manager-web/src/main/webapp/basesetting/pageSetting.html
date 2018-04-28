@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>页面参数管理</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/kindeditor/kindeditor-all.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/kindeditor/lang/zh-CN.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/kindeditor/plugins/code/prettify.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/basesetting/js/pageSetting.js"></script>
+<script type="text/javascript">
+	KindEditor.ready(function(K) {
+		loginCheck1();
+		editor = K.create('textarea[name="content1"]', {
+			cssPath : '/gift-fly/common/kindeditor/plugins/code/prettify.css',
+			/* uploadJson : '/gift-fly/common/kindeditor/jsp/upload_json.jsp', */
+			uploadJson : '/gift-fly/system/upload/kindEditorImgUpload',
+			fileManagerJson : '/gift-fly/common/kindeditor/jsp/file_manager_json.jsp',
+			allowFileManager : true,
+			resizeType : 0,
+			afterCreate : function() {
+				var self = this;
+				K.ctrl(document, 13, function() {
+					self.sync();
+					document.forms['example'].submit();
+				});
+				K.ctrl(self.edit.doc, 13, function() {
+					self.sync();
+					document.forms['example'].submit();
+				});
+			}
+		});
+		prettyPrint();
+	});
+</script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 0 10px;
+	width: 98%;
+}
+
+tr {
+	height: 24px;
+}
+
+.search_item {
+	margin: 10px 10px 0 10px;
+}
+
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 60px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 50px 5px 0;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	font-size: 13px;
+	border: 1px solid #fff;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow:auto;">
+		<div style="margin: 5px 0 0 10px;">
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-add" plain="true" onclick="addSetting()">添加参数</a>
+		</div>
+		<div class="tableDiv">
+			<table id="pagesettingdg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,pagination:true,fitColumns:true,method:'post',striped:true"
+				style="width:100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'key',width:50,align:'center'">文章名称</th>
+						<th data-options="field:'updatedAt',width:60,align:'center'">最近修改时间</th>
+						<th
+							data-options="field:'nickname',width:30,align:'center',formatter:formatterName">最后修改人</th>
+						<th
+							data-options="field:'subitem',width:30,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="addsetting" class="easyui-dialog" title="添加页面参数项"
+			style="width:420px;height:220px;padding:10px;"
+			data-options=" iconCls: 'icon-edit', buttons: '#add-buttons',closed:true,modal:true">
+			<form method="post" id="addform">
+				<table align="center">
+					<tr>
+						<td class="tdConent">参数项key：</td>
+						<td><input class="easyui-textbox" id="settingkey"
+							name="settingkey"
+							data-options="required:true,missingMessage:'请输入参数项key'" /></td>
+					</tr>
+					<tr>
+						<td class="tdConent">参数项可见性：</td>
+						<td><input class="easyui-combobox" id="protection"
+							name="protection" style="width: 150px" editable="false"
+							data-options="valueField:'id',textField:'name'"></input></td>
+					</tr>
+					<tr>
+						<td class="tdConent">参数项作用：</td>
+						<td><input class="easyui-textbox" multiline="true"
+							id="description" name="description"
+							style="width:200px;height:60px;border:1px solid #3D4F71;resize: none;"
+							data-options="required:true,missingMessage:'请输入参数项作用'"></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:28px;" id="add-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:saveSetting();">保存</a>&nbsp;&nbsp; <a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#addsetting').dialog('close');">取消</a>
+			</div>
+		</div>
+		<div id="updatesetting" class="easyui-dialog" title="编辑"
+			style="width:1000px;height:600px;"
+			data-options=" iconCls: 'icon-edit', buttons: '#up-buttons',closed:true,modal:true">
+			<textarea name="content1" cols="100" rows="8"
+				style="width:99%;height:520px;visibility:hidden;"></textarea>
+			<div style="text-align:center;height:28px;" id="up-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:saveUpdate();">保存</a>&nbsp;&nbsp; <a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#updatesetting').dialog('close');">取消</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

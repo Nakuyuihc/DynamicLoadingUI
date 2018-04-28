@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>参照项修改</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+	<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript" src="/gift-fly/basesetting/js/settingItemUpdate.js"></script>
+<style type="text/css">
+.tableDiv {
+	margin: 0 10px 5px 10px;
+}
+
+.tdConent {
+	padding-right: 5px;
+	text-align: right;
+	width: 50px;
+}
+
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 80px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 0;
+	border-radius:5px;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	font-size: 13px;
+	border: 1px solid #fff;
+}
+#settingkey{
+padding: 0 20px 0 0;
+}
+#settingtime{
+padding: 0 20px;
+}
+#settingname{
+padding: 0 20px;
+}
+.itemContent{height: 30px;padding: 5px 0 0 10px;}
+</style>
+</head>
+<body class="easyui-layout" onload="findList();">
+	<div region="center" id="mainPanle" style="overflow:auto;">
+		<div class="searchPanel" id="filter">
+			<table class="search_item" style="width: 99%;">
+				<tr>
+					<td class="itemContent">
+					<span id="settingkey"></span>
+					<span id="settingtime"></span>
+					<span id="settingname"></span></td>
+					<td style="text-align: center;"><a href="javascript:void(0)"
+						class="easyui-linkbutton" iconCls="icon-add" plain="true" 
+						onclick="addItem()">新增</a></td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableDiv">
+			<table id="itemdg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,method:'post',
+					striped:true,fitColumns:true"
+				style="width:100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'name',width:50,align:'center'">名称</th>
+						<th data-options="field:'value',width:30,align:'center'">取值</th>
+						<th data-options="field:'sort',width:30,align:'center'">排序</th>
+						<th
+							data-options="field:'subitem',width:30,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="updatevalue" class="easyui-dialog" title="修改参照项的值"
+			style="width:320px;padding:10px;"
+			data-options=" iconCls: 'icon-edit', buttons: '#up-buttons',closed:true,modal:true">
+			<form method="post" id="updateitem">
+				<table align="center">
+					<tr>
+						<td class="tdConent">ID：</td>
+						<td><span id="itemid" style="width: 200px;"></span></td>
+					</tr>
+					<tr>
+						<td class="tdConent">名称：</td>
+						<td><span id="itemname" style="width: 200px;"></span></td>
+					</tr>
+					<tr>
+						<td class="tdConent">顺序：</td>
+						<td><input class="easyui-numberbox" id="sort" name="sort" style="width:200px;" 
+						data-options="required:true, missingMessage:'请输入参照项顺序',validType:'maxlength[2]'"/></td>
+					</tr>
+					<tr>
+						<td class="tdConent">取值：</td>
+						<td><textarea id="val" name="value"
+								style="width:200px;height:30px;
+							border:1px solid #3D4F71;resize: none;"></textarea></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:28px;" id="up-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="javascript:updateItem();">保存</a>&nbsp;&nbsp; 
+				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#updatevalue').dialog('close');">取消</a>
+			</div>
+		</div>
+		<div id="insertinfo" class="easyui-dialog" title="新增参照项" style="width:320px;padding:10px;"
+			data-options=" iconCls: 'icon-add', buttons: '#add-buttons',closed:true,modal:true">
+			<form method="post" id="insertietform">
+				<table align="center">
+					<tr>
+						<td class="tdConent">名称：</td>
+						<td><input class="easyui-textbox" id="addname" style="width: 150px;"
+						 data-options="required:true, missingMessage:'请输入参照项名称',validType:'maxlength[10]'"/></td>
+					</tr>
+					<tr>
+						<td class="tdConent">取值：</td>
+						<td><input class="easyui-textbox" id="itemvalue" style="width: 150px;"
+						data-options="required:true, missingMessage:'请输入参照项取值'"/></td>
+					</tr>
+					<tr>
+						<td class="tdConent">顺序：</td>
+						<td><input class="easyui-numberbox" id="itemsort" style="width: 150px;" 
+						data-options="required:true, missingMessage:'请输入参照项顺序',validType:'maxlength[2]'"/></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center" id="add-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="javascript:insertinfo();">保存</a> 
+				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#insertinfo').dialog('close');">取消</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

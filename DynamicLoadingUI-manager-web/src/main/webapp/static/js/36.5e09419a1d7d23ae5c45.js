@@ -1,0 +1,2 @@
+webpackJsonp([36],{"4mUL":function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var s={render:function(){var e=this.$createElement;return(this._self._c||e)("div",{staticClass:"customized-explain"},[this._v("\n  情人节送女朋友礼物，就送欧莱雅护肤水润肌系列，五折优惠，超值划算，送礼高大尚...更多内容请到后台编辑吧！\n")])},staticRenderFns:[]},i=t("OF7X")({data:function(){return{}},components:{}},s,!1,function(e){t("CDjD")},null,null);n.default=i.exports},CDjD:function(e,n){}});
+//# sourceMappingURL=36.5e09419a1d7d23ae5c45.js.map

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>新人优惠券</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript" src="/gift-fly/promotion/js/newusercoupon.js"></script>
+<style type="text/css">
+.audit {
+	margin-left: 5px;
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	padding: 0px 7px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 2px;
+	border-radius: 5px;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	font-size: 13px;
+	border: 1px solid #fff;
+}
+
+.tableDiv {
+	margin: 7px 7px 0 7px;
+}
+
+.td {
+	text-align: right;
+	height: 24px;
+	line-height: 24px;
+	width: 110px;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'center'">
+		<div style="margin: 5px 0 0 10px;">
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-add" plain="true" onclick="addCoupon()">新增新人优惠券</a>
+		</div>
+		<div class="tableDiv">
+			<table id="coupondg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,
+			singleSelect:true,pagination:true,fitColumns:true,method:'post',striped:true">
+				<thead>
+					<tr>
+						<th data-options="field:'name',width:50,align:'center'">名称</th>
+						<th data-options="field:'couponWord',width:50,align:'center'">优惠券领取口令</th>
+						<th
+							data-options="field:'type',width:20,align:'center',formatter:formatterLX">优惠券类型</th>
+						<th
+							data-options="field:'denomination',width:20,align:'center',formatter:formatterME">优惠券面额</th>
+						<th data-options="field:'remark',width:50,align:'center'">使用条件</th>
+						<th data-options="field:'startTime',width:25,align:'center'">开始时间</th>
+						<th data-options="field:'endTime',width:25,align:'center'">结束时间</th>
+						<th
+							data-options="field:'cz',width:30,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="addCouponInfo" class="easyui-dialog" title="新增新人优惠券"
+			style="padding: 10px 20px;"
+			data-options=" iconCls: 'icon-save', buttons: '#add-buttons',closed:true,modal:true">
+			<form method="post" id="newuser_couponfrom">
+				<table align="center">
+					<tr>
+						<td class="td">优惠券名称：</td>
+						<td><input class="easyui-textbox" id="name" name="name"
+							data-options="required:true, missingMessage:'请输入优惠券名称',validType:'maxlength[10]'" />
+						</td>
+						<td class="td">优惠券口令：</td>
+						<td><input class="easyui-textbox" id="couponWord" name="couponWord" /></td>
+					</tr>
+					<tr>
+						<td style="text-align:right;">扣减形式：</td>
+						<td><input class="easyui-combobox" id="reductiontype"
+							name="reductiontype" editable="false"
+							data-options="valueField:'id',textField:'name'"></input></td>
+						<td style="text-align:right;">扣减对象：</td>
+						<td><select id="reductiontarget" class="easyui-combobox" name="reductiontarget" 
+							 panelHeight='auto' style="width: 150px;">
+								<option value="1" selected>扣减总价</option>
+								<option value="2">扣减商品价格</option>
+								<option value="3">扣减运费</option>
+							</select></td>
+					</tr>
+					<tr class="manjian">
+						<td class="td">优惠券面额：</td>
+						<td><input class="easyui-numberbox" id="denomination"
+							name="denomination"
+							data-options="min:0,precision:2,suffix:'元',required:true, missingMessage:'请输入优惠券面额'" />
+						</td>
+						<td class="td">最少的满减：</td>
+						<td><input class="easyui-numberbox" id="minamount" name="minamount"
+							data-options="min:0,precision:2,suffix:'元',required:true, missingMessage:'请输入最少的满减金额'" />
+						</td>
+					</tr>
+					<tr class="manzhe">
+						<td class="manzhe" style="text-align: right;">折扣数：</td>
+						<td class="manzhe"><input class="easyui-numberbox" id="discount" name="discount"
+							data-options="min:0,max:10,precision:0,suffix:'折',required:true, missingMessage:'请输入折扣数'" />
+						</td>
+						<td class="manzhe" style="text-align: right;">最少的满折：</td>
+						<td class="manzhe"><input class="easyui-numberbox" id="mindiscount" name="mindiscount"
+							data-options="min:0,precision:2,suffix:'元',required:true, missingMessage:'请输入最少的满折金额'" />
+						</td>
+					</tr>
+					<tr>
+						<td class="td">单人领取上限：</td>
+						<td><input class="easyui-numberbox" id="maxpersonal"
+							name="maxpersonal"
+							data-options="min:1,suffix:'张',required:true, missingMessage:'请输入单人领取上限'" />
+						</td>
+						<td class="td">订单最多可用张数：</td>
+						<td><input class="easyui-numberbox" id="maxcount"
+							name="maxcount"
+							data-options="min:1,suffix:'张',required:true, missingMessage:'请输入订单最多可用张数'" />
+						</td>
+					</tr>
+					<tr>
+						<td class="td">派发数量：</td>
+						<td><input class="easyui-numberbox" id="maxamount"
+							name="maxamount"
+							data-options="min:1,suffix:'张',required:true, missingMessage:'请输入派发数量'" />
+						</td>
+						<td class="td">最大优惠金额：</td>
+						<td><input class="easyui-numberbox" id="maxmoney"
+							name="maxmoney"
+							data-options="min:0,precision:2,suffix:'元',required:true, missingMessage:'请输入最大优惠金额'" />
+						</td>
+					</tr>
+					<tr>
+						<td class="td">适用范围：</td>
+						<td><select id="scope" class="easyui-combobox" name="scope" 
+							 panelHeight='auto' style="width: 150px;">
+								<option value="1" selected>除特价外所有自营商品</option>
+								<option value="2">第三方商品</option>
+								<option value="3">合作方商品</option>
+							</select>
+						</td>
+						<td class="td">可使用的分类：</td>
+						<td><input class="easyui-combobox" id="prodcatids"
+							name="prodcatids" editable="false"
+							data-options="valueField:'id',textField:'name'"></input></td>
+					</tr>
+					<tr>
+						<td class="td">开始时间：</td>
+						<td><input class="Wdate" id="startTime"
+							style=" border-radius: 5px;"
+							onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'endTime\')||\'%y-%M-%d\'}'})"></input>
+						</td>
+						<td class="td">结束时间：</td>
+						<td><input class="Wdate" id="endTime"
+							style="border-radius: 5px;"
+							onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'startTime\')||\'%y-%M-%d\'}'})"></input>
+						</td>
+					</tr>
+					<tr>
+						<td class="td">优惠券说明：</td>
+						<td colspan="3"><input class="easyui-textbox"
+							multiline="true" id="remark" name="remark"
+							style="width:400px;height:30px;border:1px solid #3D4F71;resize: none;"
+							data-options="required:false, missingMessage:'请输入优惠券说明',validType:'maxlength[50]'"></input></td>
+					</tr>
+					<tr>
+						<td class="td">有效天数：</td>
+						<td><input class="easyui-numberbox" id="expiry" name="expiry"
+							data-options="min:0,suffix:'天',required:true, missingMessage:'请输入有效天数'" /></td>
+						<td class="td">优惠券类型：</td>
+						<td><select id="type" class="easyui-combobox" name="type" 
+							  panelHeight='auto' style="width: 150px;">
+								<option value="1" selected>自营</option>
+								<option value="2">第三方</option>
+								<option value="3">合作方</option>
+							</select></td>
+					</tr>
+					<tr>
+						<td class="td">优惠券图片：</td>
+						<td><input id="couponimg" type="text" style="width: 150px;"
+							data-options="required:true, missingMessage:'请上传优惠券图片'">
+						</td>
+						<td class="td" colspan="2" id="showimg" style="position:relative;"></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:30px;" id="add-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:saveInfo();">保存</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#addCouponInfo').dialog('close');">取消</a>
+			</div>
+		</div>
+		<div id="updateAccount" class="easyui-dialog" title="新人优惠券信息"
+			style="padding: 10px 10px;width: 530px;height: 430px;"
+			data-options=" iconCls: 'icon-edit', buttons: '#up-buttons',closed:true,modal:true">
+				<table align="center">
+					<tr>
+						<td class="td">优惠券名称：</td>
+						<td id="showname"></td>
+						<td class="td">优惠券口令：</td>
+						<td id="showcouponWord"></td>
+					</tr>
+					<tr>
+						<td class="td">扣减形式：</td>
+						<td id="showreductiontype"></td>
+						<td class="td">扣减对象：</td>
+						<td id="showreductiontarget"></td>
+					</tr>
+					<tr class="manjian">
+						<td class="td">优惠券面额：</td>
+						<td id="showdenomination"></td>
+						<td class="td">最少的满减：</td>
+						<td id="showminamount"></td>
+					</tr>
+					<tr class="manzhe">
+						<td style="text-align: right;">折扣数：</td>
+						<td id="showdiscount"></td>
+						<td style="text-align: right;">最少的满折：</td>
+						<td id="showmindiscount"></td>
+					</tr>
+					<tr>
+						<td class="td">单人领取上限：</td>
+						<td id="showmaxpersonal"></td>
+						<td class="td">订单最多可用张数：</td>
+						<td id="showmaxcount"></td>
+					</tr>
+					<tr>
+						<td class="td">派发数量：</td>
+						<td id="showmaxamount"></td>
+						<td class="td">已领取数量：</td>
+						<td id="showget"></td>
+					</tr>
+					<tr>
+						<td class="td">最大优惠金额：</td>
+						<td id="showmaxmoney"></td>
+						<td class="td">适用范围：</td>
+						<td id="showscope"></td>
+					</tr>
+					<tr>
+						<td class="td">开始时间：</td>
+						<td id="showstartTime"></td>
+						<td class="td">结束时间：</td>
+						<td id="showendTime"></td>
+					</tr>
+					<tr>
+						<td class="td">优惠券说明：</td>
+						<td colspan="3" id="showremark"></td>
+					</tr>
+					<tr>
+						<td class="td">有效天数：</td>
+						<td id="showexpiry"></td>
+						<td class="td">优惠券类型：</td>
+						<td id="showtype"></td>
+					</tr>
+					<tr>
+						<td class="td">优惠券图片：</td>
+						<td class="td" id="showImage"></td>
+						<td colspan="2"></td>
+						<!-- <td class="td">可使用的分类：</td>
+						<td id="showprodcatids"></td> -->
+					</tr>
+				</table>
+		</div>
+		<div id="upload-progressbar" class="easyui-window" closable="false"
+			collapsible="false" minimizable="false" maximizable="false"
+			title="数据正在努力上传中..." style="padding: 10px 10px;"
+			data-options="closed:true,modal:true">
+			<div id="progressBarID" style="height: 30px; width: 500px;"></div>
+			<a id="btnID" href="#" style="display: none;"></a>
+		</div>
+	</div>
+</body>
+</html>

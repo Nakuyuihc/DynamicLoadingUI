@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>学校列表</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/service.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript" src="/gift-fly/business/js/schoolList.js"></script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+
+.tdConent {
+	padding: 5px 20px 0 10px;
+	text-align: left;
+}
+
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 90px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 0;
+	border-radius: 5px;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	border: 1px solid #fff;
+}
+
+#shoolDetailinfoTb {
+	padding-left: 10px;
+}
+
+#shoolDetailinfoTb td {
+	padding-top: 20px;
+}
+
+.panel {
+	overflow: hidden;
+	text-align: center;
+	margin: 0;
+	border: 0;
+	-moz-border-radius: 0 0 0 0;
+	-webkit-border-radius: 0 0 0 0;
+	border-radius: 0 0 0 0;
+}
+.combobox-item{
+	overflow: hidden;
+	text-align: left;
+	margin: 0;
+	border: 0;
+	-moz-border-radius: 0 0 0 0;
+	-webkit-border-radius: 0 0 0 0;
+	border-radius: 0 0 0 0;
+}
+</style>
+</head>
+
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow: auto;">
+		<div class="searchPanel" id="filter">
+			<table class="search_item">
+				<tr>
+					<td class="tdConent">
+						<input id="search_schoolName" class="easyui-searchbox"
+							style="width: 200px;"
+							data-options="searcher : clearSerachbox,prompt:'请输入学校名称进行查询'"></input>
+						<a href="javascript:void(0)" class="easyui-linkbutton"
+							iconCls="icon-search" plain="true" onclick="findSchoolByName()">查询</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableDiv">
+			<table id="schoolListDg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,method:'post',pagination:true,
+					striped:true,fitColumns:true"
+				style="width: 100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'id',width:10,align:'center'">学校ID</th>
+						<th data-options="field:'orgName',width:30,align:'center'">学校名称</th>
+						<th data-options="field:'address',width:40,align:'center'">学校地址</th>
+						<th data-options="field:'type',width:20,align:'center',formatter:formatterLX">学校类型</th>
+						<th data-options="field:'supportCount',width:10,align:'center'">申请数</th>
+						<th data-options="field:'praiseCount',width:10,align:'center'">支持数</th>
+						<th data-options="field:'ranking',width:15,align:'center'">学校排名</th>
+						<th
+							data-options="field:'status',width:40,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+
+		<div id="showShoolDetailinfo" class="easyui-dialog" title="基本信息"
+			style="width: 300px; height: 245px; padding: 10px 0; position: relative;"
+			data-options="closed:true,modal:true">
+			<table id="shoolDetailinfoTb" style="width: 100%;position: relative;">
+				<tr>
+					<td>学校名称</td>
+					<td>
+						<input id="upOrgName" class="easyui-textbox" />
+					</td>
+				</tr>
+				<tr>
+					<td>地址</td>
+					<td>
+						<input id="upAddress" class="easyui-textbox" />
+					</td>
+				</tr>
+				<tr>
+					<td>类型</td>
+					<td>
+						<select id="upType" class="easyui-combobox" name="dept"
+							style="width: 174px">
+							<option value="1">小学</option>
+							<option value="2">初中</option>
+							<option value="3">高中</option>
+							<option value="4">大学</option>
+							<option value="5">其他</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<div class="foot" style="padding-top: 10px">
+				<a href="javascript:updataShoolDetailInfo();" class="audit">保存</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

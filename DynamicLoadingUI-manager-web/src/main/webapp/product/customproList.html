@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>定制商品列表</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/MerchantSystem/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/MerchantSystem/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/MerchantSystem/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/MerchantSystem/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/MerchantSystem/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/MerchantSystem/common/jquery-easyui-1.5.3/jquery.qrcode.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/MerchantSystem/common/kindeditor/kindeditor-all.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/MerchantSystem/common/kindeditor/lang/zh-CN.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/MerchantSystem/common/kindeditor/plugins/code/prettify.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/MerchantSystem/common/js/json2.js"></script>
+<script type="text/javascript" src="/MerchantSystem/common/js/tools.js"></script>
+<script type="text/javascript" src="/MerchantSystem/system/js/logService.js"></script>
+<script type="text/javascript" src="/MerchantSystem/product/js/customproList.js"></script>
+<script type="text/javascript" src="/MerchantSystem/product/js/custDetail.js"></script>
+<script type="text/javascript" src="/MerchantSystem/product/js/custspecified.js"></script>
+<script type="text/javascript">
+	KindEditor.ready(function(K) {
+		loginCheck1();
+		editor = K.create('textarea[name="content1"]', {
+			cssPath : '/MerchantSystem/common/kindeditor/plugins/code/prettify.css',
+			uploadJson : '/gift-fly/system/upload/kindEditorImgUpload',
+			allowFileManager : true,
+			resizeType : 0,
+			afterCreate : function() {
+				var self = this;
+				K.ctrl(document, 13, function() {
+					self.sync();
+					document.forms['example'].submit();
+				});
+				K.ctrl(self.edit.doc, 13, function() {
+					self.sync();
+					document.forms['example'].submit();
+				});
+			}
+		});
+		editor2 = K.create('textarea[name="content2"]', {
+			cssPath : '/MerchantSystem/common/kindeditor/plugins/code/prettify.css',
+			uploadJson : '/gift-fly/system/upload/kindEditorImgUpload',
+			allowFileManager : true,
+			resizeType : 0,
+			afterCreate : function() {
+				var self = this;
+				K.ctrl(document, 13, function() {
+					self.sync();
+					document.forms['example'].submit();
+				});
+				K.ctrl(self.edit.doc, 13, function() {
+					self.sync();
+					document.forms['example'].submit();
+				});
+			}
+		});
+		prettyPrint();
+	});
+</script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+.tdConent {
+	padding: 10px 10px;
+	text-align: left;
+}
+.detail-td {
+	text-align: right;
+}
+.search_item {
+	float: left;
+}
+.l-btn-left {
+	border: 1px solid #E0ECFF;
+	border-radius: 5px;
+}
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #95B8E7;
+	text-decoration: none;
+	display: inline-block;
+	width: 60px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px solid #E0ECFF;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	font-size: 13px;
+	border: 1px solid #fff;
+}
+
+.audit1 {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 60px;
+	border: 1px solid #E0ECFF;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.audit1:HOVER {
+	background: #748ccb;
+	font-size: 13px;
+	border: 1px solid #fff;
+}
+.audit3 {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 100px;
+	border: 1px solid #E0ECFF;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.audit3:HOVER {
+	background: #748ccb;
+	font-size: 13px;
+	border: 1px solid #fff;
+}
+
+.audit2 {
+	font-size: 14px;
+	color: #000;
+	background: #27A9E3;
+	text-decoration: none;
+	display: inline-block;
+	width: 80px;
+	border: 1px solid #E0ECFF;
+	border-radius: 5px;
+	text-align: center;
+	height: 24px;
+}
+
+.audit2:HOVER {
+	background: #748ccb;
+	font-size: 15px;
+	border: 1px solid #fff;
+}
+
+.detailaudit {
+	font-size: 16px;
+	font-weight: bolder;
+	color: #000;
+	text-decoration: none;
+	display: inline-block;
+	text-align: center;
+}
+
+.detailaudit:HOVER {
+	font-size: 17px;
+}
+
+.saveaudit {
+	font-size: 16px;
+	color: #000;
+	background: #95B8E7;
+	text-decoration: none;
+	display: inline-block;
+	width: 80px;
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #E0ECFF;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.saveaudit:HOVER {
+	font-size: 17px;
+	background: #748ccb;
+	border: 1px solid #fff;
+}
+
+.nextstep {
+	font-size: 16px;
+	font-weight: bolder;
+	color: #606060;
+	width: 200px;
+	height: 30px;
+	line-height: 30px;
+	text-decoration: none;
+	display: inline-block;
+	text-align: center;
+}
+
+.nextstep:HOVER {
+	font-size: 17px;
+	color: #27A9E3;
+}
+
+.adddetailaudit {
+	font-size: 14px;
+	font-weight: bolder;
+	color: #BBB;
+	text-align: center;
+}
+
+.detailtd {
+	height: 30px;
+	width: 100px;
+}
+
+.prodtd {
+	width: 250px;
+}
+
+#prodsign {
+	margin: 0;
+	padding: 0;
+}
+
+ul li {
+	list-style: none;
+	float: left;
+	margin-right: 20px;
+}
+
+.tree-node-selected {
+	background: #fff;
+}
+
+.fileInputContainer {
+	height: 100px;
+	background: url(/MerchantSystem/common/images/upload.png);
+	position: relative;
+	width: 100px;
+}
+
+.fileInput {
+	height: 100px;
+	font-size: 300px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	opacity: 0;
+	width: 100px;
+	cursor: pointer;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow: auto;">
+		<div class="searchPanel" id="filter">
+			<table class="search_item">
+				<tr>
+					<td class="tdConent"><input id="product" addClear
+						class="easyui-textbox" style="width:180px;"
+						data-options="prompt:'商品名称/商品id'"></input></td>
+					<td class="tdConent">商品状态： <input class="easyui-combobox"
+						addClear id="prostatus" style="width: 90px" editable="false"
+						data-options="valueField:'id',textField:'name'"></input>
+					</td>
+					<td class="tdConent"><a href="javascript:void(0)"
+						class="easyui-linkbutton" iconCls="icon-search" plain="true"
+						onclick="queryInfo()">查询</a></td>
+					<td class="tdConent" style="width: 180px;text-align: right;"><a
+						href="javascript:void(0)" class="easyui-linkbutton"
+						iconCls="icon-add" plain="true" onclick="addProduct()">添加定制商品</a></td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableDiv">
+			<table id="custproductdg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,method:'post',pagination:true,
+					striped:true,fitColumns:true"
+				style="width: 100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'id',width:20,align:'center'">商品id</th>
+						<th data-options="field:'name',width:40,align:'center'">商品名称</th>
+						<th data-options="field:'priceDiscount',width:20,align:'center'">商品价格</th>
+						<th data-options="field:'store',width:10,align:'center'">库存</th>
+						<th
+							data-options="field:'isUp',width:10,align:'center',formatter:formatterZT">商品状态</th>
+						<th
+							data-options="field:'operation',width:30,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="addcustproductinfo" class="easyui-dialog" title="添加商品"
+			style="height: 600px;width: 70%;"
+			data-options="closed:true,modal:true">
+			<table style="margin:10px 200px;">
+				<tr>
+					<td class="adddetailaudit" id="toptd1">填写商品基本信息 &nbsp;&nbsp;></td>
+					<td class="adddetailaudit" id="toptd2">上传商品图片 &nbsp;&nbsp;></td>
+					<td class="adddetailaudit" id="toptd3">填写商品规格 &nbsp;&nbsp;</td>
+				</tr>
+			</table>
+			<div id="addgeneralInfo" style="position:relative;">
+				<form method="post" id="addMfrom">
+					<table style="margin-left: 20px;">
+						<tr>
+							<td class="addtd">商品名称：</td>
+							<td><input class="easyui-textbox" id="addprodname"
+								name="prodname" style="width: 160px;"
+								data-options="required:true, missingMessage:'请输入商品名称',validType:'length[1,20]'" /></td>
+							<td style="text-align: right;">商品包装：</td>
+							<td><input class="easyui-combobox" name="packing"
+								id="addpacking" style="width: 160px" editable="false"
+								data-options="valueField:'id',textField:'name'" /></td>
+						</tr>
+						<tr>
+							<td class="addtd">模版标题：</td>
+							<td><input class="easyui-textbox" id="addtitle"
+								name="title" style="width: 160px;"
+								data-options="required:true, missingMessage:'请输入商品名称',validType:'length[1,20]'" /></td>
+							<td style="text-align: right;">模版封面图：</td>
+							<td><input id="addtemplateimg" type="text" style="width: 160px;"
+								data-options="required:true, missingMessage:'请上传规格封面图'"></td>
+						</tr>
+						<tr>
+							<td class="addtd">模版类型：</td>
+							<td><select id="templateType" class="easyui-combobox"
+							name="templateType" panelHeight='auto' style="width: 160px;">
+								<option value="1" selected>一般2D模板</option>
+								<option value="2">3D模板</option>
+						</select></td>
+							<td class="addtd">商品关键词：</td>
+							<td><input class="easyui-textbox" id="addprodantistop"
+								name="prodantistop" style="width: 160px;"
+								data-options="required:true, missingMessage:'多个词用逗号隔开',validType:'length[1,30]'" /></td>
+						</tr>
+						<tr>
+							<td class="addtd">商品描述：</td>
+							<td colspan="3"><input class="easyui-textbox"
+								multiline="true" id="adddescription" name="description"
+								style="width:400px;height:40px;border:1px solid #3D4F71;resize: none;"
+								data-options="required:false, missingMessage:'请输入商品的描述',validType:'maxlength[120]'">
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4">商品详情：</td>
+						</tr>
+					</table>
+				<div id="showtemplateimg" style="position: absolute;top:10px;right:265px;"></div>
+				</form>
+				<div style="margin-left: 20px;">
+					<textarea name="content1" cols="100" rows="8"
+						style="width:98%;height:400px;visibility:hidden;"></textarea>
+				</div>
+				<div style="width:150px;height: 30px;margin: 10px auto;">
+					<a href="javascript:nextstep();" class="nextstep">下一步,上传商品图片</a>
+				</div>
+			</div>
+			<div id="addproductImg"  style="width:98%;height: 80%;margin: 5px auto;">
+					<div id="showImg"></div>
+						<div class="fileInputContainer" style="position: absolute;bottom:20%;left: 48%;">
+							<input class="fileInput" type="file" id="addimgs" multiple="true"
+								accept="image/*" onchange="ztpPreview()" />
+						</div>
+					<div id="progressBarID" style="width:400px;"
+						data-options="closed:true,modal:true"></div>
+					<a id="btnID" href="#" style="display: none;"></a>
+				<div style="position: absolute;bottom:5%;left: 42%;">
+					<a href="javascript:nextstep1();" class="nextstep">下一步,添加商品规格</a>
+				</div>
+			</div>
+			<div id="addprodSpecified">
+				<div style="margin: 5px 10px;">
+					<a href="javascript:void(0)" class="easyui-linkbutton"
+						iconCls="icon-add" plain="true" onclick="addProdSpec()">添加商品规格</a>
+				</div>
+				<div style="height: 420px;">
+					<table id="addshowgiftspecified" class="easyui-datagrid tablelist"
+						data-options="rownumbers:true,singleSelect:true,method:'post',
+					striped:true,fitColumns:true"
+						style="width:100%;">
+						<thead>
+							<tr>
+								<!-- <th data-options="field:'id',width:20,align:'center'">商品规格编号</th> -->
+								<th data-options="field:'spec',width:20,align:'center'">规格</th>
+								<th data-options="field:'size',width:20,align:'center'">尺寸</th>
+								<th data-options="field:'priceDiscount',width:20,align:'center'">价格</th>
+								<th data-options="field:'store',width:20,align:'center'">库存</th>
+								<th
+									data-options="field:'isUp',width:20,align:'center',formatter:formatterZT">状态</th>
+								<th
+									data-options="field:'wzml',width:20,align:'center',formatter:formatterwzml">位置目录</th>
+								<th
+									data-options="field:'image',width:20,align:'center',formatter:formatterspecTP">图片</th>
+								<th
+									data-options="field:'cz',width:30,align:'center',formatter:spCZ">操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div id="addspec" class="easyui-dialog" title="添加规格"
+					style="padding:10px;"
+					data-options=" iconCls: 'icon-save', buttons: '#add-buttons',closed:true,modal:true">
+					<form method="post" id="addspecform">
+						<table align="center">
+							<tr>
+								<td class="detail-td">规格：</td>
+								<td width="150"><input class="easyui-textbox"
+									id="addSpecname" name="spec" style="width: 150px;"
+									data-options="required:true, missingMessage:'请输入规格',validType:'length[1,10]'" /></td>
+								<td class="detail-td">尺寸：</td>
+								<td width="150"><input class="easyui-textbox" id="addsize"
+									name="size" style="width: 150px;"
+									data-options="required:true, missingMessage:'请输入尺寸',validType:'length[1,10]'" /></td>
+							</tr>
+							<tr>
+								<td class="detail-td">原价：</td>
+								<td><input class="easyui-numberbox" id="addpriceOrigin"
+									name="priceOrigin" style="width: 150px;"
+									data-options="min:0,precision:2,suffix:'元',required:true,missingMessage:'请输入原价',validType:'length[1,8]'"></input></td>
+								<td class="detail-td">售价：</td>
+								<td><input class="easyui-numberbox" id="addpriceDiscount"
+									name="priceDiscount" style="width: 150px;"
+									data-options="min:0,precision:2,suffix:'元',required:true, missingMessage:'请输入售价',validType:'length[1,8]'"></input></td>
+							</tr>
+							<tr>
+								<td class="detail-td">库存：</td>
+								<td><input class="easyui-numberbox" id="addstore"
+									name="store" style="width: 150px;"
+									data-options="min:0,required:true, missingMessage:'请输入库存',validType:'length[1,10]'"></input></td>
+								<td class="detail-td">规格封面图：</td>
+								<td><input id="addspecimg" type="text" style="width: 150px;"
+								data-options="required:true, missingMessage:'请上传规格封面图'"></td>
+							</tr>
+							<tr>
+								<td class="property" colspan="4" id="showspecimg"
+									style="position:relative;text-align: right;"></td>
+							</tr>
+							<tr>
+								<td class="detail-td">规格logo：</td>
+								<td><input id="addspeclogo" type="text"
+									style="width: 150px;"></td>
+								<td class="detail-td">尺寸logo：</td>
+								<td><input id="addsizelogo" type="text"
+									style="width: 150px;"></td>
+							</tr>
+							<tr>
+								<td class="property" colspan="2" id="showspeclogo"
+									style="position:relative;text-align: right;"></td>
+								<td class="property" colspan="2" id="showsizelogo"
+									style="position:relative;text-align: right;"></td>
+							</tr>
+						</table>
+					</form>
+					<div style="text-align:center" id="add-buttons">
+						<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+							onclick="javascript:saveSpecified();">保存</a> <a href="#"
+							class="easyui-linkbutton" iconCls="icon-cancel"
+							onclick="javascript:$('#addspec').dialog('close');">取消</a>
+					</div>
+				</div>
+				<div id="updatespec" class="easyui-dialog" title="编辑规格"
+					style="padding:10px;"
+					data-options=" iconCls: 'icon-edit', buttons: '#up-buttons',closed:true,modal:true">
+					<form method="post" id="updatespecsp">
+						<table align="center">
+							<tr>
+								<td class="detail-td">规格：</td>
+								<td width="150"><input class="easyui-textbox" id="upspec"
+									name="spec" style="width: 150px;"
+									data-options="required:true, missingMessage:'请输入规格',validType:'length[1,10]'" /></td>
+								<td class="detail-td">尺寸：</td>
+								<td width="150"><input class="easyui-textbox" id="upsize"
+									name="size" style="width: 150px;"
+									data-options="required:true, missingMessage:'请输入尺寸',validType:'length[1,10]'" /></td>
+							</tr>
+							<tr>
+								<td class="detail-td">原价：</td>
+								<td><input class="easyui-numberbox" id="uppriceOrigin"
+									name="priceOrigin" style="width: 150px;"
+									data-options="min:0,precision:2,suffix:'元',required:true, missingMessage:'请输入原价',validType:'length[1,8]'"></input></td>
+								<td class="detail-td">售价：</td>
+								<td><input class="easyui-numberbox" id="uppriceDiscount"
+									name="priceDiscount" style="width: 150px;"
+									data-options="min:0,precision:2,suffix:'元',required:true, missingMessage:'请输入售价',validType:'length[1,8]'"></input></td>
+							</tr>
+							<tr>
+								<td class="detail-td">库存：</td>
+								<td><input class="easyui-numberbox" id="upstore"
+									name="store" style="width: 150px;"
+									data-options="min:0,required:true, missingMessage:'请输入库存',validType:'length[1,10]'"></input></td>
+								<td class="detail-td">规格封面图：</td>
+								<td><input id="upspecimg" type="text" style="width: 150px;"></td>
+							</tr>
+							<tr>
+								<td class="property" colspan="4" id="upshowspecimg"
+									style="position:relative;text-align: right;"></td>
+							</tr>
+							<tr>
+								<td class="detail-td">规格logo：</td>
+								<td><input id="upspeclogo" type="text"
+									style="width: 150px;"></td>
+								<td class="detail-td">尺寸logo：</td>
+								<td><input id="upsizelogo" type="text"
+									style="width: 150px;"></td>
+							</tr>
+							<tr>
+								<td class="property" colspan="2" id="upshowspeclogo"
+									style="position:relative;text-align: right;"></td>
+								<td class="property" colspan="2" id="upshowsizelogo"
+									style="position:relative;text-align: right;"></td>
+							</tr>
+						</table>
+					</form>
+					<div style="text-align:center" id="up-buttons">
+						<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+							onclick="javascript:updateSpecifiedInfo();">保存</a> <a href="#"
+							class="easyui-linkbutton" iconCls="icon-cancel"
+							onclick="javascript:$('#updatespec').dialog('close');">取消</a>
+					</div>
+				</div>
+				<div style="width:80px;height: 30px;margin: 10px auto;">
+					<a href="javascript:saveInfo();" class="audit2">保存</a>
+				</div>
+			</div>
+		</div>
+		<div id="productDetail" class="easyui-dialog" title="商品详情"
+			style="width:80%;height:600px;" data-options="closed:true,modal:true">
+			<table style="margin-left: 50px;">
+				<tr>
+					<td class="detailtd"><a href="javascript:generalInfo();"
+						class="detailaudit">通用信息</a></td>
+					<td class="detailtd"><a href="javascript:productImg();"
+						class="detailaudit">商品相册</a></td>
+					<td class="detailtd"><a href="javascript:prodSpecified();"
+						class="detailaudit">商品规格</a></td>
+				</tr>
+			</table>
+			<div id="generalInfo" style="position:relative;">
+				<form method="post" id="productDetailform">
+					<table style="height: 100%;margin-left: 20px;">
+						<tr>
+							<td class="addtd">商品名称：</td>
+							<td><input class="easyui-textbox" id="upprodname"
+								name="prodname" style="width: 160px;"
+								data-options="required:true, missingMessage:'请输入商品名称',validType:'length[1,20]'" /></td>
+						<td style="text-align: right;">商品包装：</td>
+							<td><input class="easyui-combobox" editable="false"
+								id="uppacklist" style="width: 160px"
+								data-options="valueField:'id',textField:'name'" /></td>
+						</tr>
+						<tr>
+							<td class="addtd">模版标题：</td>
+							<td><input class="easyui-textbox" id="uptitle" style="width: 160px;"
+								data-options="required:true,missingMessage:'请输入模版标题',validType:'length[1,20]'" /></td>
+							<td style="text-align: right;">模版封面图：</td>
+							<td><input id="uptemplateimg" type="text" style="width: 160px;"></td>
+						</tr>
+						<tr>
+						<td class="addtd">模版类型：</td>
+							<td><select id="uptemplateType" class="easyui-combobox"
+							name="templateType" panelHeight='auto' style="width: 160px;">
+								<option value="1">一般2D模板</option>
+								<option value="2">3D模板</option>
+						</select></td>
+							<td class="addtd">商品关键词：</td>
+							<td><input class="easyui-textbox" id="upprodantistop"
+								name="prodantistop" style="width: 160px;"
+								data-options="required:true, missingMessage:'多个词用逗号隔开',validType:'length[1,30]'" /></td>
+						</tr>
+						<tr>
+							<td class="uptd">商品描述：</td>
+							<td colspan="3"><input class="easyui-textbox"
+								multiline="true" id="updescription" name="description"
+								style="width:400px;height:40px;border:1px solid #3D4F71;resize: none;"
+								data-options="required:false, missingMessage:'请输入商品的描述',validType:'maxlength[120]'">
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4">商品详情：</td>
+						</tr>
+					</table>
+				</form>
+				<div style="margin-left: 20px;">
+					<textarea name="content2" cols="100" rows="8"
+						style="width:98%;height:400px;visibility:hidden;"></textarea>
+				</div>
+				<div id="showuptemplateimg" style="position: absolute;top:0;right:265px;"></div>
+				<div id="qrcode" style="position:absolute;top: 0;right:100px;">
+				</div>
+				<div id="qrcodedownload" style="position:absolute;top:130px;left:85%;">
+					<a id="download" download="qrcode.jpg"></a> 
+					<button id="save">下载二维码</button>
+				</div>
+				<div style="width:140px;height: 30px;margin: 10px auto;">
+					<a href="javascript:saveprod1();" class="saveaudit">保&nbsp;&nbsp;存</a>
+				</div>
+			</div>
+			<div id="productImg" style="width:98%;height: 80%;margin: 5px auto;">
+				<div id="upshowImg"></div>
+				<div class="fileInputContainer" style="position: absolute;bottom:20%;left: 49%;">
+					<input class="fileInput" type="file" id="upimgs" multiple="true"
+						accept="image/*" onchange="upPreview()" />
+				</div>
+				<div style="position: absolute;bottom:5%;left: 49%;">
+					<a href="javascript:saveprod2();" class="saveaudit">保&nbsp;&nbsp;存</a>
+				</div>
+			</div>
+			<div id="prodSpecified">
+				<div style="margin: 5px 10px;">
+					<a href="javascript:void(0)" class="easyui-linkbutton"
+						iconCls="icon-add" plain="true" onclick="addupSpec()">添加商品规格</a>
+				</div>
+				<div style="height: 420px;">
+					<table id="showgiftspecified" class="easyui-datagrid tablelist"
+						data-options="rownumbers:true,singleSelect:true,method:'post',
+					striped:true,fitColumns:true"
+						style="width:100%;">
+						<thead>
+							<tr>
+								<!-- <th data-options="field:'id',width:20,align:'center'">商品规格编号</th> -->
+								<th data-options="field:'spec',width:20,align:'center'">规格</th>
+								<th data-options="field:'size',width:20,align:'center'">尺寸</th>
+								<!-- <th data-options="field:'priceOrigin',width:20,align:'center'">原价</th> -->
+								<th data-options="field:'priceDiscount',width:20,align:'center'">价格</th>
+								<th data-options="field:'store',width:20,align:'center'">库存</th>
+								<th
+									data-options="field:'wzml',width:20,align:'center',formatter:formatterwzml">位置目录</th>
+								<th
+									data-options="field:'isUp',width:20,align:'center',formatter:formatterZT">状态</th>
+								<th
+									data-options="field:'image',width:20,align:'center',formatter:formatterspecTP">图片</th>
+								<th
+									data-options="field:'cz',width:30,align:'center',formatter:spCZ">操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div style="width:80px;height: 30px;margin: 10px auto;">
+					<a href="javascript:saveprod4();" class="saveaudit">保&nbsp;&nbsp;存</a>
+				</div>
+			</div>
+		</div>
+		<div id="upload-progressbar" class="easyui-window" closable="false"
+			collapsible="false" minimizable="false" maximizable="false"
+			title="图片正在努力上传中..." style="padding: 10px 10px;"
+			data-options="closed:true,modal:true">
+			<div id="progressBarID" style="height: 30px; width: 500px;"></div>
+			<a id="btnID" href="#" style="display: none;"></a>
+		</div>
+		<div id="showGiftSp" class="easyui-dialog" title="定制商品位置信息" style="width:70%;height:600px;"
+				data-options="closed:true,modal:true">
+				<div id="showCost"></div></br>
+				<div style="width:100%;text-align: center;padding-bottom: 10px;">
+				<a href="javascript:saveTemplate();" class="saveaudit">保&nbsp;&nbsp;存</a>
+				</div>
+		</div>
+	</div>
+</body>

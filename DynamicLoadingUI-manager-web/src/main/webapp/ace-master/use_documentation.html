@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title>Wysiwyg &amp; Markdown Editor - Ace Admin</title>
+
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="assets/css/jquery-ui.custom.min.css" />
+
+		<!-- text fonts -->
+		<link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+		<![endif]-->
+		<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+		<script src="assets/js/ace-extra.min.js"></script>
+
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+		<!--[if lte IE 8]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body class="no-skin" style="background:#fff;">
+		<div id="navbar" class="navbar navbar-default          ace-save-state">
+			<div class="navbar-container ace-save-state" id="navbar-container">
+				<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+					<span class="sr-only">Toggle sidebar</span>
+
+					<span class="icon-bar"></span>
+
+					<span class="icon-bar"></span>
+
+					<span class="icon-bar"></span>
+				</button>
+
+				<div class="navbar-header pull-left">
+					<a href="index.html" class="navbar-brand">
+						<small>
+							<i class="fa fa-leaf"></i>
+							Ace Admin
+						</small>
+					</a>
+				</div>
+
+				<div class="navbar-buttons navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="grey dropdown-modal">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-tasks"></i>
+								<span class="badge badge-grey">4</span>
+							</a>
+
+							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="ace-icon fa fa-check"></i>
+									4 Tasks to complete
+								</li>
+
+								<li class="dropdown-content">
+									<ul class="dropdown-menu dropdown-navbar">
+										<li>
+											<a href="#">
+												<div class="clearfix">
+													<span class="pull-left">Software Update</span>
+													<span class="pull-right">65%</span>
+												</div>
+
+												<div class="progress progress-mini">
+													<div style="width:65%" class="progress-bar"></div>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix">
+													<span class="pull-left">Hardware Upgrade</span>
+													<span class="pull-right">35%</span>
+												</div>
+
+												<div class="progress progress-mini">
+													<div style="width:35%" class="progress-bar progress-bar-danger"></div>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix">
+													<span class="pull-left">Unit Testing</span>
+													<span class="pull-right">15%</span>
+												</div>
+
+												<div class="progress progress-mini">
+													<div style="width:15%" class="progress-bar progress-bar-warning"></div>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix">
+													<span class="pull-left">Bug Fixes</span>
+													<span class="pull-right">90%</span>
+												</div>
+
+												<div class="progress progress-mini progress-striped active">
+													<div style="width:90%" class="progress-bar progress-bar-success"></div>
+												</div>
+											</a>
+										</li>
+									</ul>
+								</li>
+
+								<li class="dropdown-footer">
+									<a href="#">
+										See tasks with details
+										<i class="ace-icon fa fa-arrow-right"></i>
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li class="purple dropdown-modal">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
+								<span class="badge badge-important">8</span>
+							</a>
+
+							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="ace-icon fa fa-exclamation-triangle"></i>
+									8 Notifications
+								</li>
+
+								<li class="dropdown-content">
+									<ul class="dropdown-menu dropdown-navbar navbar-pink">
+										<li>
+											<a href="#">
+												<div class="clearfix">
+													<span class="pull-left">
+														<i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
+														New Comments
+													</span>
+													<span class="pull-right badge badge-info">+12</span>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<i class="btn btn-xs btn-primary fa fa-user"></i>
+												Bob just signed up as an editor ...
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix">
+													<span class="pull-left">
+														<i class="btn btn-xs no-hover btn-success fa fa-shopping-cart"></i>
+														New Orders
+													</span>
+													<span class="pull-right badge badge-success">+8</span>
+												</div>
+											</a>
+										</li>
+
+										<li>
+											<a href="#">
+												<div class="clearfix">
+													<span class="pull-left">
+														<i class="btn btn-xs no-hover btn-info fa fa-twitter"></i>
+														Followers
+													</span>
+													<span class="pull-right badge badge-info">+11</span>
+												</div>
+											</a>
+										</li>
+									</ul>
+								</li>
+
+								<li class="dropdown-footer">
+									<a href="#">
+										See all notifications
+										<i class="ace-icon fa fa-arrow-right"></i>
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li class="green dropdown-modal">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
+								<span class="badge badge-success">5</span>
+							</a>
+
+							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="ace-icon fa fa-envelope-o"></i>
+									5 Messages
+								</li>
+
+								<li class="dropdown-content">
+									<ul class="dropdown-menu dropdown-navbar">
+										<li>
+											<a href="#" class="clearfix">
+												<img src="assets/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Alex:</span>
+														Ciao sociis natoque penatibus et auctor ...
+													</span>
+
+													<span class="msg-time">
+														<i class="ace-icon fa fa-clock-o"></i>
+														<span>a moment ago</span>
+													</span>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="clearfix">
+												<img src="assets/images/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Susan:</span>
+														Vestibulum id ligula porta felis euismod ...
+													</span>
+
+													<span class="msg-time">
+														<i class="ace-icon fa fa-clock-o"></i>
+														<span>20 minutes ago</span>
+													</span>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="clearfix">
+												<img src="assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Bob:</span>
+														Nullam quis risus eget urna mollis ornare ...
+													</span>
+
+													<span class="msg-time">
+														<i class="ace-icon fa fa-clock-o"></i>
+														<span>3:15 pm</span>
+													</span>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="clearfix">
+												<img src="assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Kate:</span>
+														Ciao sociis natoque eget urna mollis ornare ...
+													</span>
+
+													<span class="msg-time">
+														<i class="ace-icon fa fa-clock-o"></i>
+														<span>1:33 pm</span>
+													</span>
+												</span>
+											</a>
+										</li>
+
+										<li>
+											<a href="#" class="clearfix">
+												<img src="assets/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+												<span class="msg-body">
+													<span class="msg-title">
+														<span class="blue">Fred:</span>
+														Vestibulum id penatibus et auctor  ...
+													</span>
+
+													<span class="msg-time">
+														<i class="ace-icon fa fa-clock-o"></i>
+														<span>10:09 am</span>
+													</span>
+												</span>
+											</a>
+										</li>
+									</ul>
+								</li>
+
+								<li class="dropdown-footer">
+									<a href="inbox.html">
+										See all messages
+										<i class="ace-icon fa fa-arrow-right"></i>
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li class="light-blue dropdown-modal">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<img class="nav-user-photo" src="assets/images/avatars/user.jpg" alt="Jason's Photo" />
+								<span class="user-info">
+									<small>Welcome,</small>
+									Jason
+								</span>
+
+								<i class="ace-icon fa fa-caret-down"></i>
+							</a>
+
+							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+								<li>
+									<a href="#">
+										<i class="ace-icon fa fa-cog"></i>
+										Settings
+									</a>
+								</li>
+
+								<li>
+									<a href="profile.html">
+										<i class="ace-icon fa fa-user"></i>
+										Profile
+									</a>
+								</li>
+
+								<li class="divider"></li>
+
+								<li>
+									<a href="#">
+										<i class="ace-icon fa fa-power-off"></i>
+										Logout
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div><!-- /.navbar-container -->
+		</div>
+		<div class="main-container ace-save-state" id="main-container">
+			<div id="sidebar" class="sidebar                  responsive                    ace-save-state" data-sidebar="true" data-sidebar-scroll="true" data-sidebar-hover="true">
+					<script type="text/javascript">
+						try{ace.settings.loadState('sidebar')}catch(e){}
+					</script>
+
+					<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+						<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+							<button class="btn btn-success">
+								<i class="ace-icon fa fa-signal"></i>
+							</button>
+
+							<button class="btn btn-info">
+								<i class="ace-icon fa fa-pencil"></i>
+							</button>
+
+							<button class="btn btn-warning">
+								<i class="ace-icon fa fa-users"></i>
+							</button>
+
+							<button class="btn btn-danger">
+								<i class="ace-icon fa fa-cogs"></i>
+							</button>
+						</div>
+
+						<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+							<span class="btn btn-success"></span>
+
+							<span class="btn btn-info"></span>
+
+							<span class="btn btn-warning"></span>
+
+							<span class="btn btn-danger"></span>
+						</div>
+					</div><!-- /.sidebar-shortcuts -->
+
+					<ul class="nav nav-list" style="top: 0px;">
+						<li class="active">
+							<a href="use_documentation.html">
+								<i class="menu-icon fa fa-tachometer"></i>
+								<span class="menu-text">使用说明</span>
+							</a>
+
+							<b class="arrow"></b>
+						</li>
+						<li class="">
+							<a href="index.html">
+								<i class="menu-icon fa fa-tachometer"></i>
+								<span class="menu-text"> Dashboard </span>
+							</a>
+
+							<b class="arrow"></b>
+						</li>
+
+						<li class="">
+							<a href="#" class="dropdown-toggle">
+								<i class="menu-icon fa fa-desktop"></i>
+								<span class="menu-text">
+									UI &amp; Elements
+								</span>
+
+								<b class="arrow fa fa-angle-down"></b>
+							</a>
+
+							<b class="arrow"></b>
+
+							<ul class="submenu">
+								<li class="">
+									<a href="#" class="dropdown-toggle">
+										<i class="menu-icon fa fa-caret-right"></i>
+
+										Layouts
+										<b class="arrow fa fa-angle-down"></b>
+									</a>
+
+									<b class="arrow"></b>
+
+									<ul class="submenu">
+										<li class="">
+											<a href="top-menu.html">
+												<i class="menu-icon fa fa-caret-right"></i>
+												Top Menu
+											</a>
+
+											<b class="arrow"></b>
+										</li>
+
+										<li class="">
+											<a href="two-menu-1.html">
+												<i class="menu-icon fa fa-caret-right"></i>
+												Two Menus 1
+											</a>
+
+											<b class="arrow"></b>
+										</li>
+
+										<li class="">
+											<a href="two-menu-2.html">
+												<i class="menu-icon fa fa-caret-right"></i>
+												Two Menus 2
+											</a>
+
+											<b class="arrow"></b>
+										</li>
+
+										<li class="">
+											<a href="mobile-menu-1.html">
+												<i class="menu-icon fa fa-caret-right"></i>
+												Default Mobile Menu
+											</a>
+
+											<b class="arrow"></b>
+										</li>
+
+										<li class="">
+											<a href="mobile-menu-2.html">
+												<i class="menu-icon fa fa-caret-right"></i>
+												Mobile Menu 2
+											</a>
+
+											<b class="arrow"></b>
+										</li>
+
+										<li class="">
+											<a href="mobile-menu-3.html">
+												<i class="menu-icon fa fa-caret-right"></i>
+												Mobile Menu 3
+											</a>
+
+											<b class="arrow"></b>
+										</li>
+									</ul>
+								</li>
+
+								<li class="">
+									<a href="typography.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Typography
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="elements.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Elements
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="buttons.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Buttons &amp; Icons
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="content-slider.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Content Sliders
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="treeview.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Treeview
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="jquery-ui.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										jQuery UI
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="nestable-list.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Nestable Lists
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="#" class="dropdown-toggle">
+										<i class="menu-icon fa fa-caret-right"></i>
+
+										Three Level Menu
+										<b class="arrow fa fa-angle-down"></b>
+									</a>
+
+									<b class="arrow"></b>
+
+									<ul class="submenu">
+										<li class="">
+											<a href="#">
+												<i class="menu-icon fa fa-leaf green"></i>
+												Item #1
+											</a>
+
+											<b class="arrow"></b>
+										</li>
+
+										<li class="">
+											<a href="#" class="dropdown-toggle">
+												<i class="menu-icon fa fa-pencil orange"></i>
+
+												4th level
+												<b class="arrow fa fa-angle-down"></b>
+											</a>
+
+											<b class="arrow"></b>
+
+											<ul class="submenu">
+												<li class="">
+													<a href="#">
+														<i class="menu-icon fa fa-plus purple"></i>
+														Add Product
+													</a>
+
+													<b class="arrow"></b>
+												</li>
+
+												<li class="">
+													<a href="#">
+														<i class="menu-icon fa fa-eye pink"></i>
+														View Products
+													</a>
+
+													<b class="arrow"></b>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+
+						<li class="">
+							<a href="#" class="dropdown-toggle">
+								<i class="menu-icon fa fa-list"></i>
+								<span class="menu-text"> Tables </span>
+
+								<b class="arrow fa fa-angle-down"></b>
+							</a>
+
+							<b class="arrow"></b>
+
+							<ul class="submenu">
+								<li class="">
+									<a href="tables.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Simple &amp; Dynamic
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="jqgrid.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										jqGrid plugin
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+							</ul>
+						</li>
+
+						<li class="">
+							<a href="#" class="dropdown-toggle">
+								<i class="menu-icon fa fa-pencil-square-o"></i>
+								<span class="menu-text"> Forms </span>
+
+								<b class="arrow fa fa-angle-down"></b>
+							</a>
+
+							<b class="arrow"></b>
+
+							<ul class="submenu">
+								<li class="">
+									<a href="form-elements.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Form Elements
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="form-elements-2.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Form Elements 2
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="form-wizard.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Wizard &amp; Validation
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="wysiwyg.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Wysiwyg &amp; Markdown
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="dropzone.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Dropzone File Upload
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+							</ul>
+						</li>
+
+						<li class="">
+							<a href="widgets.html">
+								<i class="menu-icon fa fa-list-alt"></i>
+								<span class="menu-text"> Widgets </span>
+							</a>
+
+							<b class="arrow"></b>
+						</li>
+
+						<li class="">
+							<a href="calendar.html">
+								<i class="menu-icon fa fa-calendar"></i>
+
+								<span class="menu-text">
+									Calendar
+
+									<span class="badge badge-transparent tooltip-error" title="" data-original-title="2 Important Events">
+										<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i>
+									</span>
+								</span>
+							</a>
+
+							<b class="arrow"></b>
+						</li>
+
+						<li class="">
+							<a href="gallery.html">
+								<i class="menu-icon fa fa-picture-o"></i>
+								<span class="menu-text"> Gallery </span>
+							</a>
+
+							<b class="arrow"></b>
+						</li>
+
+						<li class="">
+							<a href="#" class="dropdown-toggle">
+								<i class="menu-icon fa fa-tag"></i>
+								<span class="menu-text"> More Pages </span>
+
+								<b class="arrow fa fa-angle-down"></b>
+							</a>
+
+							<b class="arrow"></b>
+
+							<ul class="submenu">
+								<li class="">
+									<a href="profile.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										User Profile
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="inbox.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Inbox
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="pricing.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Pricing Tables
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="invoice.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Invoice
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="timeline.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Timeline
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="search.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Search Results
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="email.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Email Templates
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="login.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Login &amp; Register
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+							</ul>
+						</li>
+
+						<li class="">
+							<a href="#" class="dropdown-toggle">
+								<i class="menu-icon fa fa-file-o"></i>
+
+								<span class="menu-text">
+									Other Pages
+
+									<span class="badge badge-primary">5</span>
+								</span>
+
+								<b class="arrow fa fa-angle-down"></b>
+							</a>
+
+							<b class="arrow"></b>
+
+							<ul class="submenu">
+								<li class="">
+									<a href="faq.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										FAQ
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="error-404.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Error 404
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="error-500.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Error 500
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="grid.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Grid
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+
+								<li class="">
+									<a href="blank.html">
+										<i class="menu-icon fa fa-caret-right"></i>
+										Blank Page
+									</a>
+
+									<b class="arrow"></b>
+								</li>
+							</ul>
+						</li>
+					</ul><!-- /.nav-list -->
+
+					<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+						<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+					</div>
+			</div>
+			<div class="main-content" style="padding:10px;">
+				<p>blank：空白页面</p>
+				<p>buttons：按钮、icon</p>
+				<p>icon两种类名调用方式：menu-icon fa fa-tachometer（其中menu-icon是必备类后面两个根据icon的样式不同选取其他类名）和ace-icon fa fa-gift（其中ace-icon是必备类后面两个根据icon的样式不同选取其他类名）</p>
+				<p>calendar：日历标记备忘录</p>
+				<p>content-slider：模态框内容滑块</p>
+				<p>dropzone：多张图片上传</p>
+				<p>elements：用户界面元素，进度条、手风琴效果、tips提示、下拉菜单、</p>
+				<p>email、email-confirmation、email-contrast、email-navbar、email-newsletter：邮件模板</p>
+				<p>form-elements-1、form-elements-2：表单元素</p>
+				<p>form-wizard：表单导向与验证</p>
+				<p>gallery：图片画廊可点击放大</p>
+				<p>grid：栅格化布局</p>
+				<p>inbox：邮箱，收发送邮件</p>
+				<p>invoice：客户发票列表</p>
+				<p>jqgrid：固定高度滑动来显示的表格</p>
+				<p>jquery-ui：Datepicker日期控件,Dialogs对话框,Autocomplete自动补全输入，Menu菜单， Spinner加减，Slider进度滑块，Sortable </p>
+				<p>Accordion可排序的手风琴排版，Tabs切换，Progressbar进度条，Selectmenu下拉选择框</p>
+				<p>login：登录页面</p>
+
+				<p>mobile-menu-1：页面宽度小于992px时，左侧导航图标悬浮左上角</p>
+				<p>mobile-menu-2：页面宽度小于992px时，左侧导航变成细条状</p>
+				<p>mobile-menu-3：页面宽度小于992px时，左侧导航图标悬浮右上角</p>
+
+				<p>nestable-list：嵌套的列表</p>
+				<p>pricing：商品价位</p>
+				<p>profile：用户信息页面</p>
+				<p>search：搜索</p>
+				<p>tables：表格</p>
+				<p>timeline：时光轴</p>
+				<p>top-menu：导航置顶</p>
+				<p>treeview：树形图</p>
+				<p>two-menu-1：左侧导航和顶部导航，即双导航展示</p>
+				<p>two-menu-2：左侧导航和顶部导航，即双导航展示</p>
+				<p>typography：页面排版</p>
+
+				<p>widgets：窗口小部件，可以拖拽进行位置移动</p>
+				<p>wysiwyg：编辑器</p>
+			</div>
+		<!-- basic scripts -->
+
+		<!--[if !IE]> -->
+		<script src="assets/js/jquery-2.1.4.min.js"></script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script src="assets/js/jquery-1.11.3.min.js"></script>
+<![endif]-->
+		<script type="text/javascript">
+			if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="assets/js/bootstrap.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+		<script src="assets/js/jquery-ui.custom.min.js"></script>
+		<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="assets/js/markdown.min.js"></script>
+		<script src="assets/js/bootstrap-markdown.min.js"></script>
+		<script src="assets/js/jquery.hotkeys.index.min.js"></script>
+		<script src="assets/js/bootstrap-wysiwyg.min.js"></script>
+		<script src="assets/js/bootbox.js"></script>
+
+		<!-- ace scripts -->
+		<script src="assets/js/ace-elements.min.js"></script>
+		<script src="assets/js/ace.min.js"></script>
+
+		<!-- inline scripts related to this page -->
+		<script type="text/javascript">
+			jQuery(function($){
+	
+	$('textarea[data-provide="markdown"]').each(function(){
+        var $this = $(this);
+
+		if ($this.data('markdown')) {
+		  $this.data('markdown').showEditor();
+		}
+		else $this.markdown()
+		
+		$this.parent().find('.btn').addClass('btn-white');
+    })
+	
+	
+	
+	function showErrorAlert (reason, detail) {
+		var msg='';
+		if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+		else {
+			//console.log("error uploading file", reason, detail);
+		}
+		$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+		 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+	}
+
+	//$('#editor1').ace_wysiwyg();//this will create the default editor will all buttons
+
+	//but we want to change a few buttons colors for the third style
+	$('#editor1').ace_wysiwyg({
+		toolbar:
+		[
+			'font',
+			null,
+			'fontSize',
+			null,
+			{name:'bold', className:'btn-info'},
+			{name:'italic', className:'btn-info'},
+			{name:'strikethrough', className:'btn-info'},
+			{name:'underline', className:'btn-info'},
+			null,
+			{name:'insertunorderedlist', className:'btn-success'},
+			{name:'insertorderedlist', className:'btn-success'},
+			{name:'outdent', className:'btn-purple'},
+			{name:'indent', className:'btn-purple'},
+			null,
+			{name:'justifyleft', className:'btn-primary'},
+			{name:'justifycenter', className:'btn-primary'},
+			{name:'justifyright', className:'btn-primary'},
+			{name:'justifyfull', className:'btn-inverse'},
+			null,
+			{name:'createLink', className:'btn-pink'},
+			{name:'unlink', className:'btn-pink'},
+			null,
+			{name:'insertImage', className:'btn-success'},
+			null,
+			'foreColor',
+			null,
+			{name:'undo', className:'btn-grey'},
+			{name:'redo', className:'btn-grey'}
+		],
+		'wysiwyg': {
+			fileUploadError: showErrorAlert
+		}
+	}).prev().addClass('wysiwyg-style2');
+
+	
+	/**
+	//make the editor have all the available height
+	$(window).on('resize.editor', function() {
+		var offset = $('#editor1').parent().offset();
+		var winHeight =  $(this).height();
+		
+		$('#editor1').css({'height':winHeight - offset.top - 10, 'max-height': 'none'});
+	}).triggerHandler('resize.editor');
+	*/
+	
+
+	$('#editor2').css({'height':'200px'}).ace_wysiwyg({
+		toolbar_place: function(toolbar) {
+			return $(this).closest('.widget-box')
+			       .find('.widget-header').prepend(toolbar)
+				   .find('.wysiwyg-toolbar').addClass('inline');
+		},
+		toolbar:
+		[
+			'bold',
+			{name:'italic' , title:'Change Title!', icon: 'ace-icon fa fa-leaf'},
+			'strikethrough',
+			null,
+			'insertunorderedlist',
+			'insertorderedlist',
+			null,
+			'justifyleft',
+			'justifycenter',
+			'justifyright'
+		],
+		speech_button: false
+	});
+	
+	
+
+
+	$('[data-toggle="buttons"] .btn').on('click', function(e){
+		var target = $(this).find('input[type=radio]');
+		var which = parseInt(target.val());
+		var toolbar = $('#editor1').prev().get(0);
+		if(which >= 1 && which <= 4) {
+			toolbar.className = toolbar.className.replace(/wysiwyg\-style(1|2)/g , '');
+			if(which == 1) $(toolbar).addClass('wysiwyg-style1');
+			else if(which == 2) $(toolbar).addClass('wysiwyg-style2');
+			if(which == 4) {
+				$(toolbar).find('.btn-group > .btn').addClass('btn-white btn-round');
+			} else $(toolbar).find('.btn-group > .btn-white').removeClass('btn-white btn-round');
+		}
+	});
+
+
+	
+
+	//RESIZE IMAGE
+	
+	//Add Image Resize Functionality to Chrome and Safari
+	//webkit browsers don't have image resize functionality when content is editable
+	//so let's add something using jQuery UI resizable
+	//another option would be opening a dialog for user to enter dimensions.
+	if ( typeof jQuery.ui !== 'undefined' && ace.vars['webkit'] ) {
+		
+		var lastResizableImg = null;
+		function destroyResizable() {
+			if(lastResizableImg == null) return;
+			lastResizableImg.resizable( "destroy" );
+			lastResizableImg.removeData('resizable');
+			lastResizableImg = null;
+		}
+
+		var enableImageResize = function() {
+			$('.wysiwyg-editor')
+			.on('mousedown', function(e) {
+				var target = $(e.target);
+				if( e.target instanceof HTMLImageElement ) {
+					if( !target.data('resizable') ) {
+						target.resizable({
+							aspectRatio: e.target.width / e.target.height,
+						});
+						target.data('resizable', true);
+						
+						if( lastResizableImg != null ) {
+							//disable previous resizable image
+							lastResizableImg.resizable( "destroy" );
+							lastResizableImg.removeData('resizable');
+						}
+						lastResizableImg = target;
+					}
+				}
+			})
+			.on('click', function(e) {
+				if( lastResizableImg != null && !(e.target instanceof HTMLImageElement) ) {
+					destroyResizable();
+				}
+			})
+			.on('keydown', function() {
+				destroyResizable();
+			});
+	    }
+
+		enableImageResize();
+
+		/**
+		//or we can load the jQuery UI dynamically only if needed
+		if (typeof jQuery.ui !== 'undefined') enableImageResize();
+		else {//load jQuery UI if not loaded
+			//in Ace demo ./components will be replaced by correct components path
+			$.getScript("assets/js/jquery-ui.custom.min.js", function(data, textStatus, jqxhr) {
+				enableImageResize()
+			});
+		}
+		*/
+	}
+
+
+});
+		</script>
+	</body>
+</html>

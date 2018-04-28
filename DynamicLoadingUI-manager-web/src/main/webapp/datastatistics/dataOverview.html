@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>数据概览</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/Highcharts-6.0.4/js/highcharts.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/Highcharts-6.0.4/js/themes/sand-signika.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/datastatistics/js/dataOverview.js"></script>
+<style type="text/css">
+.top {
+	width: 15%;
+	height: 80px;
+	border: 1px solid #D5D5D6;
+	float: left;
+	margin-left: 10px;
+}
+.top a{
+	margin-left: 5px;
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	padding: 0px 7px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 2px;
+	border-radius: 5px;
+}
+.top a:HOVER {
+	background: #748ccb;
+	font-size: 13px;
+	border: 1px solid #fff;
+}
+#divtop {
+	width: 95%;
+	height: 100px;
+	text-align: center;
+	margin: 10px auto;
+	text-align: center;
+}
+
+table {
+	text-align: center;
+	width: 100%;
+	height: 100%;
+}
+
+.bottom {
+	height: 20px;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<!-- <div region="center" id="mainPanle" style="overflow:auto;"> -->
+		<div id="divtop">
+			<div class="top">
+				<table>
+					<tr>
+						<td id="today-order"></td>
+					</tr>
+					<tr>
+						<td class="bottom">今日新增订单</td>
+					</tr>
+				</table>
+			</div>
+			<div class="top">
+				<table>
+					<tr>
+						<td id="month-order"></td>
+					</tr>
+					<tr>
+						<td class="bottom"><a href="javascript:void(0)" onclick="monthOrderNum()">本月订单数</a></td>
+					</tr>
+				</table>
+			</div>
+			<div class="top">
+				<table>
+					<tr>
+						<td id="today-money"></td>
+					</tr>
+					<tr>
+						<td class="bottom">今日订单额</td>
+					</tr>
+				</table>
+			</div>
+			<div class="top">
+				<table>
+					<tr>
+						<td id="month-money"></td>
+					</tr>
+					<tr>
+						<td class="bottom"><a href="javascript:void(0)" onclick="monthOrderMoney()">本月订单额</a></td>
+					</tr>
+				</table>
+			</div>
+			<div class="top">
+				<table>
+					<tr>
+						<td id="today-new-user"></td>
+					</tr>
+					<tr>
+						<td class="bottom">今日新增会员</td>
+					</tr>
+				</table>
+			</div>
+			<div class="top">
+				<table>
+					<tr>
+						<td id="month-new-user"></td>
+					</tr>
+					<tr>
+						<td class="bottom"><a href="javascript:void(0)" onclick="monthNewUser()">本月新增会员</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div id="linechartofdata" style="max-width:95%;height:480px;margin: 10px auto;"></div>
+</body>
+</html>

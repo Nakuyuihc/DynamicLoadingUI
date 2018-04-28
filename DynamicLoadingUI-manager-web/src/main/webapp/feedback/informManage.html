@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/service.js"></script>
+<script type="text/javascript" src="/gift-fly/feedback/js/informManage.js"></script>
+<title>举报列表</title>
+<style type="text/css">
+.head_div {
+	padding: 10px;
+}
+
+.imgDiv {
+	display: flex;
+	justify-content: center;
+}
+
+.imgFt {
+	padding-left: 10px;
+	width: 50px;
+	height: 50px;
+}
+</style>
+</head>
+
+<body class="easyui-layout">
+	<div data-options="region:'center'">
+	<div>
+			<div class="head_div">
+				举报日期 &nbsp; &nbsp;
+				<input class="Wdate" type="text" name="startTime" id="startTime"
+					style="width: 182px; border-radius: 5px;"
+					onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})"></input>
+				&nbsp; &nbsp;至 &nbsp; &nbsp;
+				<input class="Wdate" type="text" name="endTime" id="endTime"
+					style="width: 182px; border-radius: 5px;"
+					onfocus="WdatePicker({dateFmt:'yyyy-MM-dd', maxDate:'%y-%M-%d',minDate:'#F{$dp.$D(\'startTime\')}'})"></input>
+				&nbsp; &nbsp; &nbsp; &nbsp;
+				举报来源 &nbsp; &nbsp;
+				<select id="cmbStatus" class="easyui-combobox" name="dept"
+					style="width: 200px;">
+					<option value="-1">全部</option>
+					<option value="1">直播</option>
+					<option value="2">用户</option>
+				</select>
+				&nbsp; &nbsp; &nbsp; &nbsp;
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					iconCls="icon-search" plain="true" onclick="findFbListByStatus()">查询</a>
+			</div>
+		</div>
+		<div>
+			<table id="snsReport" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,pagination:true,method:'post',striped:true"
+				fitColumns="true" style="width: 100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'createdAt',width:50,align:'center'">举报时间</th>
+						<th data-options="field:'fromN',width:50,align:'center'">举报来源</th>
+						<th data-options="field:'typeN',width:30,align:'center'">举报类型</th>
+						<th data-options="field:'imageIds',width:50,align:'center',formatter:formatterImg">截图</th>
+						<th data-options="field:'userName',width:50,align:'center'">举报人</th>
+						<th data-options="field:'toUserName',width:50,align:'center'">被举报人</th>
+						<th data-options="field:'content',width:50,align:'center'">举报描述</th>
+						<!-- <th data-options="field:'deleted',width:50,align:'center',formatter:formatterCZ">操作</th> -->
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

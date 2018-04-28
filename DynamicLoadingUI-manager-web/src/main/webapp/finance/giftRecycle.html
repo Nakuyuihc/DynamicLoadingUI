@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>礼物回收记录</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+	<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/finance/js/giftRecycle.js"></script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+.tdConent {
+	padding: 10px 20px 10px 10px;
+	text-align: left;
+}
+.search_item {
+	float: left;
+}
+.l-btn-left {
+  border: 1px solid #E0ECFF;
+  border-radius: 5px;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow: auto;">
+		<div class="searchPanel" id="filter">
+			<table class="search_item">
+				<tr>
+					<td class="tdConent">
+						日期：
+						<input class="Wdate" id="startTime" style="width: 182px; border-radius: 5px;" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endTime\')||\'%y-%M-%d\'}'})"></input>
+						&nbsp;至&nbsp;
+						<input class="Wdate" id="endTime" style="width: 182px; border-radius: 5px;" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\')||\'%y-%M-%d\'}'})"></input>
+					</td>
+					<td class="tdConent">
+						<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="queryInfo()">查询</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableDiv">
+			<table id="giftRecycledg" class="easyui-datagrid tablelist" data-options="rownumbers:true,pagination:true,method:'post',
+			striped:true,fitColumns:true" style="width: 100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'createdAt',width:30,align:'center'">回收时间</th>
+						<th data-options="field:'name',width:20,align:'center'">用户昵称</th>
+						<th data-options="field:'phonenum',width:30,align:'center'">手机号码</th>
+						<th data-options="field:'tTypeName',width:40,align:'center'">商品名称</th>
+						<th data-options="field:'goodsType',width:40,align:'center'">商品类型</th>
+						<th data-options="field:'goodsCount',width:20,align:'center'">回收数量</th>
+						<th data-options="field:'note',width:20,align:'center'">商品原价</th>
+						<th data-options="field:'recycleAmount',width:20,align:'center'">回收价格</th>
+						
+						
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

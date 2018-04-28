@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>推广员申请</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/generalize/js/applyForPromotion.js"></script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #BCD3EC;
+	text-decoration: none;
+	display: inline-block;
+	width: 60px;
+	border: 1px solid #BCD3EC;
+	margin: 5px 0;
+	border-radius: 5px;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	border: 1px solid #fff;
+}
+
+.audit1 {
+	font-size: 12px;
+	color: #000;
+	background: #BCD3EC;
+	text-decoration: none;
+	display: inline-block;
+	width: 60px;
+	height: 24px;
+	line-height: 24px;
+	border: 1px solid #BCD3EC;
+	margin: 5px 0;
+	border-radius: 5px;
+}
+
+.audit1:HOVER {
+	background: #748ccb;
+	border: 1px solid #fff;
+}
+
+.search_item {
+	float: left;
+}
+
+.tdConent {
+	padding: 10px 20px 10px 10px;
+	text-align: left;
+}
+
+.property {
+	text-align: right;
+	width: 80px;
+	height: 22px;
+}
+
+#headPortrait {
+	width: 180px;
+	height: 180px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin: 0 auto;
+	position:absolute;
+	top:30px;
+	right:30px;
+}
+#cardimg{
+position:absolute;
+bottom: 10px;
+left: 50px;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow: auto;">
+		<div class="searchPanel" id="filter">
+			<table class="search_item">
+				<tr>
+					<td class="tdConent">状态： <input id="statusbox" name="status"
+						style="width: 165px; height: 24px;">
+					</td>
+					<td class="tdConent"><a href="javascript:void(0)"
+						class="easyui-linkbutton" iconCls="icon-search" plain="true"
+						onclick="findByDate()">查询</a></td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableDiv">
+			<table id="applyForPromotiondg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,method:'post',pagination:true,
+					striped:true,fitColumns:true"
+				style="width: 100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'userId',width:10,align:'center'">用户ID</th>
+						<th data-options="field:'nickname',width:20,align:'center'">用户昵称</th>
+						<th data-options="field:'openId',width:30,align:'center'">手机号</th>
+						<th
+							data-options="field:'sex',width:30,align:'center',formatter:formattersex">性别</th>
+						<th data-options="field:'createdAt',width:20,align:'center'">注册时间</th>
+						<th
+							data-options="field:'status',width:20,align:'center',formatter:formatterZT">状态</th>
+						<th
+							data-options="field:'operation',width:40,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="showApplyInfo" class="easyui-dialog" title="申请信息"
+			style="padding: 20px 20px; width:400px;height:300px; position: relative;"
+			data-options="closed:true,buttons: '#add-buttons',modal:true">
+			<form method="post" id="addMfrom">
+				<table id="addinfotable">
+					<tr class="trContent">
+						<td id="realname"></td>
+						<td id="sex"></td>
+					</tr>
+					<tr class="trContent">
+						<td id="job"></td>
+						<td id="idcard"></td>
+					</tr>
+					<tr class="trContent">
+						<td id="email"></td>
+						<td id="phone"></td>
+					</tr>
+					<tr class="trContent">
+						<td>身份证</td>
+					</tr>
+					<tr class="trContent">
+						<td id="IDfront"></td>
+						<td id="IDcontrary"></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:24px;">
+				<a href="#" class="audit1" onclick="javascript:pass();">通过</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="#" class="audit1" onclick="javascript:noPass();">不通过</a>
+			</div>
+		</div>
+		<div id="showdetailinfo" class="easyui-dialog" title="会员详细信息"
+			style="width: 720px; height: 440px; padding: 10px 20px; position: relative;"
+			data-options="closed:true,modal:true">
+			<table id="infotable">
+				<tr class="trContent">
+					<td class="property">会员ID：</td>
+					<td colspan="3" id="userid"></td>
+				</tr>
+				<tr class="trContent">
+					<td class="property">会员昵称：</td>
+					<td id="usernickname"></td>
+					<td class="property">真实姓名：</td>
+					<td id="username"></td>
+				</tr>
+				<tr class="trContent">
+					<td class="property">手机号：</td>
+					<td id="userphone"></td>
+					<td class="property">职业：</td>
+					<td id="userjob"></td>
+				</tr>
+				<tr class="trContent">
+					<td class="property">性别：</td>
+					<td id="usersex"></td>
+					<td class="property">身份证：</td>
+					<td id="usercard"></td>
+				</tr>
+				<tr class="trContent">
+					<td class="property">生日：</td>
+					<td id="userbirthday"></td>
+					<td class="property">邮箱：</td>
+					<td id="useremail"></td>
+				</tr>
+				<tr class="trContent">
+					<td class="property">城市：</td>
+					<td id="userarea"></td>
+					<td class="property">钱包余额：</td>
+					<td id="bmoney"></td>
+				</tr>
+				<tr class="trContent">
+					<td class="property">鸟蛋数：</td>
+					<td id="begg"></td>
+					<td class="property">爱心数：</td>
+					<td id="blove"></td>
+				</tr>
+				<tr class="trContent">
+				</tr>
+				<tr class="trContent">
+					<td class="property">注册时间：</td>
+					<td id="userregister" colspan="3"></td>
+				</tr>
+			</table>
+			<div id="headPortrait" ></div>
+			<div id="cardimg"></div>
+		</div>
+		<div id="nopassReason" class="easyui-dialog" title="审核不通过原因"
+			style="width:300px;height:180px;padding:10px;"
+			data-options=" iconCls: 'icon-edit', buttons: '#up-buttons',closed:true,modal:true">
+			<table align="center">
+				<tr>
+					<td>原因：</td>
+					<td><textarea id="description"
+							style="width:200px;height:60px;
+							border:1px solid #3D4F71;resize: none;"></textarea></td>
+				</tr>
+			</table>
+			<div style="text-align:center;height:28px;" id="up-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:saveNopass();">确定</a>&nbsp;&nbsp;<a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#nopassReason').dialog('close');">取消</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

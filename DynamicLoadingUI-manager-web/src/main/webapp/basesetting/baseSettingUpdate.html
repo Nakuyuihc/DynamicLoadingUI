@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>系统参数管理</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+	<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript" src="/gift-fly/basesetting/js/baseSettingUpdate.js"></script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+.tdConent{
+text-align:right;width: 100px;
+}
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 80px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 0;
+	border-radius: 5px;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	font-size: 13px;
+	border: 1px solid #fff;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow:auto;">
+		<div style="margin: 5px 0 0 10px;">
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-add" plain="true" onclick="addSetting()">添加参数</a>
+		</div>
+		<div class="tableDiv">
+			<table id="settingdg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,pagination:true,fitColumns:true,method:'post',striped:true"
+				style="width:100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'key',width:40,align:'center'">参数项</th>
+						<th data-options="field:'description',width:30,align:'center'">作用</th>
+						<th data-options="field:'value',width:50,align:'center'">取值</th>
+						<th
+							data-options="field:'protection',width:20,align:'center',formatter:formatterPRO">可见性</th>
+						<th
+							data-options="field:'nickname',width:20,align:'center',formatter:formatterName">最后修改人</th>
+						<th
+							data-options="field:'subitem',width:35,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="addsetting" class="easyui-dialog" title="添加参数项"
+			style="width:420px;height:320px;padding:10px;"
+			data-options=" iconCls: 'icon-edit', buttons: '#add-buttons',closed:true,modal:true">
+			<form method="post" id="addform">
+				<table align="center">
+					<tr>
+						<td class="tdConent">参数项key：</td>
+						<td><input class="easyui-textbox" id="settingkey" name="settingkey"
+							data-options="required:true,missingMessage:'请输入参数项key'" /></td>
+					</tr>
+					<tr>
+						<td class="tdConent">参数项可见性：</td>
+						<td><input class="easyui-combobox" id="protection"
+							name="protection" style="width: 150px" editable="false"
+							data-options="valueField:'id',textField:'name'"></input></td>
+					</tr>
+					<tr>
+						<td class="tdConent">是否有参照项：</td>
+						<td><select id="subitem" class="easyui-combobox" name="subitem" 
+						style="width:150px;" panelHeight=auto >
+								<option value="0">否</option>
+								<option value="1">是</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td class="tdConent">参数项取值：</td>
+						<td><input class="easyui-textbox" multiline="true"
+							id="settingval" name="settingval"
+							style="width:200px;height:60px;border:1px solid #3D4F71;resize: none;" 
+							data-options="required:true,missingMessage:'请输入参数项取值'"></td>
+					</tr>
+					<tr>
+						<td class="tdConent">参数项作用：</td>
+						<td><input class="easyui-textbox" multiline="true"
+							id="description" name="description"
+							style="width:200px;height:60px;border:1px solid #3D4F71;resize: none;"
+							data-options="required:true,missingMessage:'请输入参数项取值'"></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:28px;" id="add-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:saveSetting();">保存</a>&nbsp;&nbsp; <a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#addsetting').dialog('close');">取消</a>
+			</div>
+		</div>
+		<div id="updatesetting" class="easyui-dialog" title="修改参数项"
+			style="width:420px;height:350px;padding:10px;"
+			data-options=" iconCls: 'icon-edit', buttons: '#up-buttons',closed:true,modal:true">
+			<form method="post" id="upsettingform">
+				<table align="center">
+					<tr>
+						<td class="tdConent">参数项key：</td>
+						<td><input class="easyui-textbox" id="upsettingkey" name="settingkey" disabled="true"
+							data-options="required:true,missingMessage:'请输入参数项key'" /></td>
+					</tr>
+					<tr>
+						<td class="tdConent">参数项可见性：</td>
+						<td><input class="easyui-combobox" id="upprotection"
+							name="protection" style="width: 150px" editable="false"
+							data-options="valueField:'id',textField:'name'"></input></td>
+					</tr>
+					<tr>
+						<td class="tdConent">参数项类型：</td>
+						<td><input class="easyui-combobox" id="upsettingtype"
+							name="settingtype" style="width: 150px" editable="false"
+							data-options="valueField:'id',textField:'name'"></input></td>
+					</tr>
+					<tr>
+						<td class="tdConent">是否有参照项：</td>
+						<td><select id="subitem" class="easyui-combobox" name="subitem" 
+						style="width:150px;" panelHeight=auto >
+								<option value="0">否</option>
+								<option value="1">是</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td class="tdConent">参数项取值：</td>
+						<td><input class="easyui-textbox" multiline="true"
+							id="upsettingval" name="settingval"
+							style="width:200px;height:60px;border:1px solid #3D4F71;resize: none;" 
+							data-options="required:true,missingMessage:'请输入参数项取值'"></td>
+					</tr>
+					<tr>
+						<td class="tdConent">参数项作用：</td>
+						<td><input class="easyui-textbox" multiline="true"
+							id="updescription" name="description"
+							style="width:200px;height:60px;border:1px solid #3D4F71;resize: none;"
+							data-options="required:true,missingMessage:'请输入参数项取值'"></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:28px;" id="up-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:saveUpdate();">保存</a>&nbsp;&nbsp; <a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#updatesetting').dialog('close');">取消</a>
+			</div>
+		</div>
+		<div id="settingitem" class="easyui-dialog" title="参照项"
+			style="width:90%;height:552px;" data-options="closed:true,modal:true">
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+body{
+	background-color:#E6F3FB;
+}
+
+.accordion{
+	border-width:0;
+}
+
+.easyui-accordion ul{
+	list-style-type:none;
+	margin:0; 
+	padding:0;
+}
+
+.easyui-accordion li{
+	line-height:30px; 
+	height:30px;
+	margin:3px 0;
+}
+
+.easyui-accordion li a:link,
+.easyui-accordion li a:visited{
+	text-decoration:none;
+	display:block;
+	padding-left:40px;
+}
+
+.easyui-accordion li.selected a{
+	background:#005EB6;
+	color:#FFF;
+	/* The "standard" */
+	background-image: linear-gradient(180deg, #005EB6, #007ac3, #005EB6);
+	/* ie10 */
+	background-image: -ms-linear-gradient(180deg, #005EB6 0%, #007ac3 50%, #005EB6 100%);
+	/* chrome 10+, safari 5.1+ */
+	background-image:-webkit-linear-gradient(180deg, #005EB6, #007ac3, #005EB6);
+	/* firefox; multiple color stops */
+	background-image:-moz-linear-gradient(180deg, #005EB6, #007ac3, #005EB6);
+}
+
+.easyui-accordion li a:hover,
+.easyui-accordion li a:active{
+	background: #005EB6;
+	color:#fff;
+}
+
+.accordion .accordion-header{
+	padding: 8px 30px;
+}
+
+.accordion .accordion-header .panel-tool{
+	left:15px;
+	width:12px;
+	height:12px;
+}
+
+.accordion .accordion-header .panel-tool a{
+	margin:0;
+}
+
+.accordion-collapse {
+  background: url('../images/-.png') no-repeat 0 0;
+}
+
+.accordion-expand {
+  background: url('../images/+.png') no-repeat 0 0;
+}
+
+.cover{
+	border: 2px solid #D3DCE2;
+	border-radius: 8px;
+	margin:6px 4px 0 4px;
+	overflow:auto;
+	border-top-width:0;
+	background: #fff;
+}
+
+.welcome{
+	font-size:12px;
+	position:absolute;
+	top:5px;
+	right:110px;
+}
+
+.welcome a:link,.welcome a:visited{text-decoration:none;margin:0 5px;}
+.welcome a:hover{text-decoration:underline;color:#ff6600;}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>加盟商提现</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+	<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript" src="/gift-fly/finance/js/allianceDeposit.js"></script>
+
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #BCD3EC;
+	text-decoration: none;
+	display: inline-block;
+	width: 60px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px solid #BCD3EC;
+	margin: 5px 0;
+	border-radius: 5px;
+}
+.audit:HOVER {
+	background: #748ccb;
+	border: 1px solid #fff;
+}
+.search_item {
+	float: left;
+}
+.tdConent {
+	padding: 10px 20px 10px 10px;
+	text-align: left;
+}
+.l-btn-left {
+  border: 1px solid #E0ECFF;
+  border-radius: 5px;
+}
+/* .l-btn-left:HOVER {
+	background: #748ccb;
+	border: 1px solid #748ccb;
+} */
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow: auto;">
+		<div class="searchPanel" id="filter">
+			<table class="search_item">
+				<tr>
+					<td class="tdConent">
+						申请日期：
+						<input class="Wdate" id="startTime" style="width: 182px; border-radius: 5px;" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'endTime\')||\'%y-%M-%d\'}'})"></input>
+						&nbsp;至&nbsp;
+						<input class="Wdate" id="endTime" style="width: 182px; border-radius: 5px;" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'startTime\')||\'%y-%M-%d\'}'})"></input>
+					</td>
+					<td class="tdConent">
+						状态：
+						<input id="statusbox" name="status" style="width: 165px; height: 24px;">
+					</td>
+					<td class="tdConent">
+						<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="findByDate()">查询</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableDiv">
+			<table id="alliancedg" class="easyui-datagrid tablelist" 
+			data-options="rownumbers:true,singleSelect:true,method:'post',pagination:true,
+					striped:true,fitColumns:true" style="width: 100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'userid',width:10,align:'center'">加盟商ID</th>
+						<th data-options="field:'nickname',width:20,align:'center'">加盟商名称</th>
+						<th data-options="field:'phonenum',width:30,align:'center'">联系方式</th>
+						<th data-options="field:'date',width:30,align:'center'">申请时间</th>
+						<th data-options="field:'amount',width:20,align:'center'">申请金额</th>
+						<th data-options="field:'bankname',width:30,align:'center'">开户行名称</th>
+						<th data-options="field:'accountidcode',width:50,align:'center'">银行帐号</th>
+						<th data-options="field:'accountname',width:30,align:'center'">持卡人</th>
+						<th data-options="field:'status',width:20,align:'center',formatter:formatterZT">状态</th>
+						<th data-options="field:'operation',width:40,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="nopassReason" class="easyui-dialog" title="审核不通过原因"
+			style="width:300px;height:180px;padding:10px;"
+			data-options=" iconCls: 'icon-edit', buttons: '#up-buttons',closed:true,modal:true">
+				<table align="center">
+					<tr>
+						<td>描述：</td>
+						<td><textarea id="description" style="width:200px;height:60px;
+							border:1px solid #3D4F71;resize: none;"></textarea></td>
+					</tr>
+				</table>
+			<div style="text-align:center;height:28px;" id="up-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:saveNopass();">保存</a>&nbsp;&nbsp;<a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#nopassReason').dialog('close');">取消</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

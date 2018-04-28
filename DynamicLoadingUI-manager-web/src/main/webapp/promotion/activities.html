@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>专区活动</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/common/js/service.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/promotion/js/readyactivities.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/promotion/js/activities.js"></script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+
+.tdConent {
+	padding: 5px 20px 0 10px;
+	text-align: left;
+}
+
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 60px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 0;
+	border-radius: 5px;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	border: 1px solid #fff;
+}
+
+.hF {
+	text-align: right;
+	width: 80px;
+}
+
+.foot {
+	overflow: hidden;
+	text-align: center;
+	margin: 0;
+	border: 0;
+	-moz-border-radius: 0 0 0 0;
+	-webkit-border-radius: 0 0 0 0;
+	border-radius: 0 0 0 0;
+}
+</style>
+</head>
+
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow: auto;">
+		<div class="searchPanel" id="filter">
+			<table class="search_item">
+				<tr>
+					<td class="tdConent"><a href="javascript:void(0)"
+						class="easyui-linkbutton" iconCls="icon-add" plain="true"
+						onclick="addActivitieDialogShow()">添加活动</a></td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableDiv">
+			<table id="activitieListDg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,method:'post',pagination:true,
+					striped:true,fitColumns:true"
+				style="width: 100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'title',width:40,align:'center'">活动名称</th>
+						<th data-options="field:'description',width:40,align:'center'">活动内容</th>
+						<th
+							data-options="field:'deleted',width:30,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="addActivities" class="easyui-dialog" title="专区活动"
+			style="height:400px; padding: 15px; position: relative;"
+			data-options="buttons:'#add-buttons',closed:true,modal:true">
+			<form method="post" id="add_Activitiesfrom">
+				<table>
+					<tr>
+						<td class="hF">活动名称：</td>
+						<td id="td_title"><input class="easyui-textbox" id="title"
+							name="title" style="width: 160px;"
+							data-options="required:true, missingMessage:'请活动名称',validType:'maxlength[10]'" />
+						</td>
+						<td class="hF">活动类型：</td>
+						<td id="td_action_text"><select id="cmbType"
+							class="easyui-combobox" name="dept" style="width: 160px;"
+							data-options="panelHeight:'auto'">
+								<option value="1" selected>主题活动</option>
+								<option value="2">新人活动</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td class="hF">公布时间：</td>
+						<td id="td_public_at"><input class="Wdate" type="text"
+							name="publicAt" id="publicAt"
+							style="width: 160px; border-radius: 5px;"
+							onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'publicAt\')||\'%y-%M-%d %H:%m:%s\'}'})"></input>
+						</td>
+						<td class="hF">过期时间：</td>
+						<td id="td_expire_at"><input class="Wdate" type="text"
+							name="expireAt" id="expireAt"
+							style="width: 160px; border-radius: 5px;"
+							onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'publicAt\')||\'%y-%M-%d %H:%m:%s\'}'})"></input>
+						</td>
+					</tr>
+					<tr>
+						<td class="hF">开始时间：</td>
+						<td id="td_accept_at"><input class="Wdate" type="text"
+							name="acceptAt" id="acceptAt"
+							style="width: 160px; border-radius: 5px;"
+							onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'acceptAt\')||\'%y-%M-%d %H:%m:%s\'}'})"></input>
+						</td>
+						<td class="hF">截止时间：</td>
+						<td id="td_deadline_at"><input class="Wdate" type="text"
+							name="deadlineAt" id="deadlineAt"
+							style="width: 160px; border-radius: 5px;"
+							onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'acceptAt\')||\'%y-%M-%d %H:%m:%s\'}'})"></input>
+						</td>
+					</tr>
+					<tr hidden="hidden">
+						<td class="hF">活动链接：</td>
+						<td id="td_action_text" colspan="3"><input id="actionContent"
+							name="actionContent" style="width: 420px;height: 30px;"
+							class="easyui-textbox"
+							data-options="missingMessage:'请活动链接',validType:'maxlength[255]'" />
+						<!-- multiline:true,required:true,  --></td>
+					</tr>
+					<tr>
+						<td class="hF">活动内容：</td>
+						<td id="td_description" colspan="3"><input id="description"
+							name="description" style="width: 420px;" class="easyui-textbox"
+							data-options="multiline:true,required:true, missingMessage:'请活动内容',validType:'maxlength[255]'" />
+						</td>
+					</tr>
+					<tr>
+						<td class="hF">顶部广告图：</td>
+						<td id="td_image_id"><input id="upPicture" type="text"
+							style="width: 160px;padding-left: 5px"
+							data-options="required:true, missingMessage:'请上传广告图'"></td>
+						<td id="showPic" colspan="2" style="position:relative;"></td>
+					</tr>
+					<tr>
+						<td colspan="2"><div style="margin-bottom: 5px;margin-left: 10px;">
+								<a href="javascript:void(0)" class="easyui-linkbutton"
+									iconCls="icon-add" plain="true" onclick="allProdDialogShow()">选择商品</a>
+							</div></td>
+						<td><select id="adjustType" class="easyui-combobox"
+							name="adjustType"
+							data-options="editable:false,panelHeight:'auto'"
+							style="width:100px;">
+								<option value="1" selected="selected">上调价格</option>
+								<option value="2">下调价格</option>
+						</select></td>
+						<td><input class="easyui-numberbox" id="adjustprice" name="adjustprice" value="0" style="width: 60px;"
+							data-options="suffix:'元',required:true, missingMessage:'请输入要调整的价格幅度'" /></td>
+					</tr>
+					<tr>
+						<td id="td_status" colspan="4">
+							<table id="waresListDg" class="easyui-datagrid tablelist"
+								data-options="rownumbers:true,singleSelect:true,method:'post',pagination:true,
+					striped:true,fitColumns:true"
+								style="width: 100%;">
+								<thead>
+									<tr>
+										<th data-options="field:'id',width:15,align:'center'">商品编号</th>
+										<th data-options="field:'kname',width:40,align:'center'">商品名称</th>
+										<th
+										data-options="field:'priceDiscount',width:30,align:'center'">结算价</th>
+										<!-- 	<th data-options="field:'cname',width:40,align:'center'">分类</th>
+									<th data-options="field:'priceMarket',width:40,align:'center'">市场价</th>
+									<th
+										data-options="field:'priceDiscount',width:40,align:'center'">结算价</th>
+									<th data-options="field:'store',width:20,align:'center'">库存</th> -->
+										<th data-options="field:'oname',width:40,align:'center'">店铺名称</th>
+										<!-- <th data-options="field:'isUp',width:30,align:'center',formatter:formatterZT">状态</th> -->
+										<th
+											data-options="field:'deleted',width:20,align:'center',formatter:formatterPCZ">操作</th>
+									</tr>
+								</thead>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:26px;" id="add-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:addProd();">保存</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#addActivities').dialog('close');">取消</a>
+			</div>
+		</div>
+		<div id="allProdList" class="easyui-dialog" title="商品列表"
+			style="padding: 10px 10px;width: 60%;height: 450px;"
+			data-options="closed:true,modal:true">
+			<div style="margin: 5px 10px;">
+				<input id="searchPromId" class="easyui-searchbox"
+					style="width: 240px;"
+					data-options="searcher : clearSerachbox,prompt:'请输入商品的编号,如有多个,用“,”分开'"></input>
+				&nbsp; &nbsp; &nbsp; &nbsp; <a href="javascript:void(0)"
+					class="easyui-linkbutton" iconCls="icon-search" plain="true"
+					onclick="findPromById()">查询</a>
+			</div>
+			<table id="allProdListDg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:false,method:'post',pagination:true,
+					striped:true,fitColumns:true"
+				style="width: 100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'ck',checkbox:true"></th>
+						<th data-options="field:'id',width:15,align:'center'">商品编号</th>
+						<th data-options="field:'kname',width:60,align:'center'">商品名称</th>
+						<th data-options="field:'cname',width:20,align:'center'">分类</th>
+						<th data-options="field:'priceMarket',width:20,align:'center'">市场价</th>
+						<th data-options="field:'priceDiscount',width:20,align:'center'">结算价</th>
+						<th data-options="field:'store',width:20,align:'center'">库存</th>
+						<th data-options="field:'oname',width:40,align:'center'">店铺名称</th>
+						<!-- <th data-options="field:'isUp',width:40,align:'center',formatter:formatterZT">状态</th> -->
+					</tr>
+				</thead>
+			</table>
+			<div style="margin: 5px 10px;">
+				<a href="javascript:void(0)" class="easyui-linkbutton"
+					iconCls="icon-add" plain="true" onclick="confirChoice()">确定选择</a>
+			</div>
+		</div>
+		<div id="upload-progressbar" class="easyui-window" closable="false"
+			collapsible="false" minimizable="false" maximizable="false"
+			title="图片正在努力上传中..." style="padding: 10px 10px;"
+			data-options="closed:true,modal:true">
+			<div id="progressBarID" style="height: 30px; width: 500px;"></div>
+			<a id="btnID" href="#" style="display: none;"></a>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,2 @@
+webpackJsonp([61],{mdGf:function(e,t,s){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n={render:function(){this.$createElement;this._self._c;return this._m(0)},staticRenderFns:[function(){var e=this.$createElement,t=this._self._c||e;return t("div",{attrs:{id:"message"}},[t("div",{staticClass:"message__tab"},[t("span",[this._v("消息系统")]),this._v(" "),t("span",[this._v("订单消息")])])])}]},i=s("OF7X")(null,n,!1,null,null,null);t.default=i.exports}});
+//# sourceMappingURL=61.4984d23cee91a3eeeeda.js.map

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>本机构参数管理</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+	<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript" src="/gift-fly/basesetting/js/institutionManage.js"></script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+.tdConent{
+padding-right:5px;text-align:right;width: 50px;
+}
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 80px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 0;
+	border-radius:5px;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	font-size: 13px;
+	border: 1px solid #fff;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow:auto;">
+		<div class="tableDiv">
+			<table id="settingdg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,method:'post',
+					striped:true,fitColumns:true"
+				style="width:100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'key',width:40,align:'center'">参数项</th>
+						<th data-options="field:'description',width:30,align:'center'">作用</th>
+						<th data-options="field:'value',width:50,align:'center'">取值</th>
+						<th
+							data-options="field:'protection',width:20,align:'center',formatter:formatterPRO">可见性</th>
+						<th data-options="field:'nickname',width:20,align:'center'">最后修改人</th>
+						<th
+							data-options="field:'subitem',width:35,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="updateparam" class="easyui-dialog" title="修改参数项"
+			style="width:320px;height:200px;padding:10px;"
+			data-options=" iconCls: 'icon-edit', buttons: '#up-buttons',closed:true,modal:true">
+			<form method="post" id="updatefromsp">
+				<table align="center">
+					<tr>
+						<td class="tdConent">参数项：</td>
+						<td><span id="value" style="width: 200px;"></span></td>
+					</tr>
+					<tr>
+						<td class="tdConent">取值：</td>
+						<td><textarea id="val" name ="value" style="width:200px;height:60px;
+							border:1px solid #3D4F71;resize: none;"></textarea></td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:28px;" id="up-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:update();">保存</a>&nbsp;&nbsp;<a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#updateparam').dialog('close');">取消</a>
+			</div>
+		</div>
+		<div id="settingitem" class="easyui-dialog" title="参照项" style="width:90%;height:552px;"
+				data-options="closed:true,modal:true">
+			</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>公告</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/service.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/kindeditor/kindeditor-all.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/kindeditor/lang/zh-CN.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/kindeditor/plugins/code/prettify.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/advertising/js/headLines.js"></script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+
+.tdConent {
+	padding: 5px 20px 0 10px;
+	text-align: left;
+}
+
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	text-align: center;
+	display: inline-block;
+	width: 90px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 0;
+	border-radius: 5px;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	border: 1px solid #fff;
+}
+
+.hF {
+	text-align: right;
+	width: 80px;
+}
+
+.foot {
+	overflow: hidden;
+	text-align: center;
+	margin: 0;
+	border: 0;
+	-moz-border-radius: 0 0 0 0;
+	-webkit-border-radius: 0 0 0 0;
+	border-radius: 0 0 0 0;
+}
+
+.imgFt {
+	margin-top: 5px;
+	width: 80px;
+	height: 60px;
+}
+</style>
+<script type="text/javascript">
+	KindEditor.ready(function(K) {
+		loginCheck1();
+		editor = K.create('textarea[name="content1"]', {
+			cssPath : '/gift-fly/common/kindeditor/plugins/code/prettify.css',
+			/* uploadJson : '/gift-fly/common/kindeditor/jsp/upload_json.jsp', */
+			uploadJson : '/gift-fly/system/upload/kindEditorImgUpload',
+			/* fileManagerJson : '/gift-fly/common/kindeditor/jsp/file_manager_json.jsp', */
+			/* fileManagerJson : '/gift-fly/system/upload/imgsUpload', */
+			allowFileManager : true,
+			resizeType : 0,
+			afterCreate : function() {
+				var self = this;
+				K.ctrl(document, 13, function() {
+					self.sync();
+					document.forms['example'].submit();
+				});
+				K.ctrl(self.edit.doc, 13, function() {
+					self.sync();
+					document.forms['example'].submit();
+				});
+			}
+		});
+		prettyPrint();
+	});
+</script>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow: auto;">
+		<div class="searchPanel" id="filter">
+			<table class="search_item">
+				<tr>
+					<td class="tdConent">
+						<a href="javascript:void(0)"
+							class="easyui-linkbutton" iconCls="icon-add" plain="true"
+							onclick="addNoticeDialogShow()">新增公告</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableDiv">
+			<table id="noticeListDg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,method:'post',pagination:true,
+					striped:true,fitColumns:true"
+				style="width: 100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'createdAt',width:40,align:'center'">发送时间</th>
+						<!-- <th data-options="field:'imageUrl',width:20,align:'center',formatter:formatterPic">图片</th> -->
+						<th data-options="field:'title',width:40,align:'center'">通知标题</th>
+						<th data-options="field:'senderName',width:30,align:'center'">发送人</th>
+						<th
+							data-options="field:'deleted',width:40,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="addNotice" class="easyui-dialog" title="公告详情"
+			style="padding:15px;position: relative;height:500px;"
+			data-options="buttons: '#add-buttons',closed:true,modal:true">
+			<form method="post" id="addNoticeFrom">
+				<table align="center">
+					<tr>
+						<td class="hF">公告标题：</td>
+						<td>
+							<input class="easyui-textbox" id="noticeTitle" name="noticeTitle"
+								style="width:665px;height:40px;border:1px solid #3D4F71;resize: none;"
+								data-options="multiline:true,required:true, missingMessage:'请输入公告标题',validType:'maxlength[255]'" />
+						</td>
+					</tr>
+					<tr>
+						<td class="hF">公告图片：</td>
+						<td>
+							<input id="upPicture" type="text" style="width: 665px;">
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td id="showPic" style="position:relative;"></td>
+					</tr>
+					<tr>
+						<td class="hF">公告内容：</td>
+						<td id="td_action_text" colspan="3">
+							<textarea name="content1"
+								style="width:98%;height:400px;visibility:hidden;"></textarea>
+						</td>
+					</tr>
+				</table>
+			</form>
+			<div style="text-align:center;height:26px;" id="add-buttons">
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					onclick="javascript:addNotice();">保存</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-cancel"
+					onclick="javascript:$('#addNotice').dialog('close');">取消</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>商品列表</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.qrcode.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/kindeditor/kindeditor-all.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/kindeditor/lang/zh-CN.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/kindeditor/plugins/code/prettify.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript" src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript" src="/gift-fly/system/js/logService.js"></script>
+<script type="text/javascript" src="/gift-fly/product/js/productList.js"></script>
+<script type="text/javascript"
+	src="/gift-fly/product/js/productDetail.js"></script>
+<script type="text/javascript">
+	KindEditor.ready(function(K) {
+		loginCheck1();
+		editor = K.create('textarea[name="content1"]', {
+			cssPath : '/gift-fly/common/kindeditor/plugins/code/prettify.css',
+			uploadJson : '/gift-fly/common/kindeditor/jsp/upload_json.jsp',
+			fileManagerJson : '/gift-fly/common/kindeditor/jsp/file_manager_json.jsp',
+			allowFileManager : true,
+			resizeType : 0,
+			afterCreate : function() {
+				var self = this;
+				K.ctrl(document, 13, function() {
+					self.sync();
+					document.forms['example'].submit();
+				});
+				K.ctrl(self.edit.doc, 13, function() {
+					self.sync();
+					document.forms['example'].submit();
+				});
+			}
+		});
+		prettyPrint();
+	});
+</script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+
+.tdConent {
+	padding: 10px 10px;
+	text-align: left;
+}
+
+.search_item {
+	float: left;
+}
+
+.l-btn-left {
+	border: 1px solid #E0ECFF;
+	border-radius: 5px;
+}
+
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 60px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px solid #E0ECFF;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	font-size: 13px;
+	border: 1px solid #fff;
+}
+
+.audit1 {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 60px;
+	border: 1px solid #E0ECFF;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.audit1:HOVER {
+	background: #748ccb;
+	font-size: 13px;
+	border: 1px solid #fff;
+}
+
+.detailaudit {
+	font-size: 16px;
+	font-weight: bolder;
+	color: #000;
+	text-decoration: none;
+	display: inline-block;
+	text-align: center;
+}
+
+.detailaudit:HOVER {
+	font-size: 17px;
+}
+ul li {
+	list-style: none;
+	float: left;
+	margin-right: 20px;
+}
+.detailtd {
+	height: 30px;
+	width: 100px;
+}
+
+.prodtd {
+	width: 250px;
+}
+
+#prodsign {
+	margin: 0;
+	padding: 0;
+}
+
+#prodsign li {
+	list-style: none;
+	float: left;
+}
+.tree-node-selected{
+background: #fff;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow: auto;">
+		<div class="searchPanel" id="filter">
+			<!-- <div
+				style="float:left;margin: 0 0 0 20px;width: 40%;padding-top: 15px;">
+				<a href="javascript:isup();" class="audit">上架</a>
+				&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:isdown();"
+					class="audit">下架</a>
+			</div> -->
+			<table class="search_item">
+				<tr>
+					<td class="tdConent">
+						<input id="product" addClear class="easyui-textbox"
+						style="width:180px;" data-options="prompt:'加盟商名称/商品名称/商品id'"></input>
+					</td>
+					<td class="tdConent"><input class="easyui-combobox" addClear
+						id="protype" style="width: 120px" editable="false"
+						data-options="valueField:'id',textField:'text'"></input></td>
+					<td class="tdConent">商品状态： <input class="easyui-combobox"
+						addClear id="prostatus" style="width: 90px" editable="false"
+						data-options="valueField:'id',textField:'name'"></input>
+					</td>
+					<td class="tdConent"><a href="javascript:void(0)"
+						class="easyui-linkbutton" iconCls="icon-search" plain="true"
+						onclick="queryInfo()">查询</a></td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableDiv">
+			<table id="productdg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,method:'post',pagination:true,
+					striped:true,fitColumns:true"
+				style="width: 100%;">
+				<thead>
+					<tr>
+						<!-- <th field="ck" checkbox="true"></th> -->
+						<th data-options="field:'id',width:20,align:'center'">商品id</th>
+						<th data-options="field:'name',width:30,align:'center'">商品名称</th>
+						<th data-options="field:'cname',width:20,align:'center'">分类</th>
+						<th data-options="field:'priceDiscount',width:20,align:'center'">商品价格</th>
+						<th data-options="field:'store',width:10,align:'center'">库存</th>
+						<th
+							data-options="field:'isUp',width:20,align:'center',formatter:formatterZT">商品状态</th>
+						<th data-options="field:'orgName',width:40,align:'center'">加盟商名称</th>
+						<th
+							data-options="field:'operation',width:30,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="productDetail" class="easyui-dialog" title="商品详情"
+			style="width:70%;height:600px;" data-options="closed:true,modal:true">
+			<table style="margin-left: 20px;">
+				<tr>
+					<td class="detailtd"><a href="javascript:generalInfo();"
+						class="detailaudit">通用信息</a></td>
+					<td class="detailtd"><a href="javascript:productImg();"
+						class="detailaudit">商品相册</a></td>
+					<td class="detailtd"><a href="javascript:prodSpecified();"
+						class="detailaudit">商品规格</a></td>
+				</tr>
+			</table>
+			<div id="generalInfo" style="position:relative;">
+				<table style="height: 100%;margin-left: 20px;">
+					<tr>
+						<td>商品名称：</td>
+						<td class="prodtd" id="prodname"></td>
+						<td style="width: 60px;">商品分类：</td>
+						<td class="prodtd" id="prodtype"></td>
+					</tr>
+					<tr>
+						<td>商品关键词：</td>
+						<td class="prodtd" id="prodantistop" style="width: 260px;"></td>
+						<td style="width: 60px;">商品包装：</td>
+						<td class="prodtd" id="packing"></td>
+					</tr>
+					<tr>
+						<td class="uptd">价格标签：</td>
+						<td colspan="3">
+							<ul id="uppricesign"></ul>
+						</td>
+					</tr>
+					<tr>
+						<td class="uptd">用途标签：</td>
+						<td colspan="3">
+							<ul id="upusesign"></ul>
+						</td>
+					</tr>
+					<tr>
+						<td class="uptd">节日标签：</td>
+						<td colspan="3">
+							<ul id="upfestivalsign"></ul>
+						</td>
+					</tr>
+					<tr>
+						<td class="uptd">商品描述：</td>
+						<td colspan="3"><input class="easyui-textbox" multiline="true" id="updescription"
+							disabled="true" style="width:600px;height:40px;border:1px solid #3D4F71;resize: none;">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">商品详情：</td>
+					</tr>
+				</table>
+				<div style="margin-left: 20px;">
+					<textarea name="content1" cols="100" rows="8"
+						style="width:98%;height:400px;visibility:hidden;"></textarea>
+				</div>
+				<div id="qrcode" style="position:absolute;top: 1%;left:82%;">
+				</div>
+				<a id="download" download="qrcode.jpg"></a> 
+				<div id="qrcodedownload" style="position:absolute;top:130px;left:83%;">
+					<a id="download" download="qrcode.jpg"></a> 
+					<button id="save">下载二维码</button>
+				</div>
+			</div>
+			<div id="productImg" style="margin: 10px 20px;"></div>
+			<div id="prodSpecified">
+				<table id="showgiftspecified" class="easyui-datagrid tablelist"
+					data-options="rownumbers:true,singleSelect:true,method:'post',
+					striped:true,fitColumns:true"
+					style="width:100%;">
+					<thead>
+						<tr>
+							<th data-options="field:'spec',width:20,align:'center'">规格</th>
+							<th data-options="field:'size',width:20,align:'center'">尺寸</th>
+							<th data-options="field:'priceOrigin',width:20,align:'center'">原价</th>
+							<th data-options="field:'priceDiscount',width:20,align:'center'">售价</th>
+							<th data-options="field:'store',width:20,align:'center'">库存</th>
+							<th data-options="field:'image',width:20,align:'center',formatter:formatterTP">图片</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

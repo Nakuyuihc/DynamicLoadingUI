@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+<META HTTP-EQUIV="expires" CONTENT="0">
+<title>申请列表</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/themes/icon.css" />
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/json2.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/tools.js"></script>
+<script type="text/javascript"
+	src="https://cdn.admin.who168.com/gift-fly/common/js/service.js"></script>
+<script type="text/javascript" src="/gift-fly/business/js/applyList.js"></script>
+<style type="text/css">
+.tableDiv {
+	margin: 10px 10px 5px 10px;
+}
+
+.tdConent {
+	padding: 5px 20px 0 10px;
+	text-align: left;
+}
+
+.audit {
+	font-size: 12px;
+	color: #000;
+	background: #E0ECFF;
+	text-decoration: none;
+	display: inline-block;
+	width: 90px;
+	height: 22px;
+	line-height: 22px;
+	border: 1px solid #E0ECFF;
+	margin: 5px 0;
+	border-radius: 5px;
+}
+
+.audit:HOVER {
+	background: #748ccb;
+	border: 1px solid #fff;
+}
+
+.hF {
+	height: 50px;
+	text-align: right;
+}
+
+.img_div {
+	display: flex;
+	justify-content: space-between;
+}
+
+.authorImagePath {
+	width: 150px;
+	height: 150px;
+}
+
+.foot {
+	overflow: hidden;
+	text-align: center;
+	margin: 0;
+	border: 0;
+	-moz-border-radius: 0 0 0 0;
+	-webkit-border-radius: 0 0 0 0;
+	border-radius: 0 0 0 0;
+}
+
+#showApplyDetailInfo {
+	text-align: left;
+	margin: 0;
+	border: 0;
+	-moz-border-radius: 0 0 0 0;
+	-webkit-border-radius: 0 0 0 0;
+	border-radius: 0 0 0 0;
+}
+</style>
+</head>
+<body class="easyui-layout">
+	<div region="center" id="mainPanle" style="overflow: auto;">
+		<div class="searchPanel" id="filter">
+			<table class="search_item">
+				<tr>
+					<td class="tdConent">
+						<select id="cmb_Action" class="easyui-combobox" name="cmb_Action"
+							data-options="editable:false" style="width:90px;">
+							<option value="2">学校名称：</option>
+							<option value="1">申请人：</option>
+						</select>
+						<input id="search_Name" class="easyui-searchbox"
+							style="width: 200px;"
+							data-options="searcher : clearSerachbox,prompt:'请输入学校名称进行查询'"></input>
+						<a href="javascript:void(0)" class="easyui-linkbutton"
+							iconCls="icon-search" plain="true"
+							onclick="findApplyListByNameAndAction()">查询</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="tableDiv">
+			<table id="applyListDg" class="easyui-datagrid tablelist"
+				data-options="rownumbers:true,singleSelect:true,method:'post',pagination:true,
+					striped:true,fitColumns:true"
+				style="width: 100%;">
+				<thead>
+					<tr>
+						<th data-options="field:'userId',width:10,align:'center'">申请人ID</th>
+						<th data-options="field:'nickName',width:20,align:'center'">申请人昵称</th>
+						<th data-options="field:'submiterName',width:30,align:'center'">姓名</th>
+						<th data-options="field:'tel1',width:30,align:'center'">联系电话</th>
+						<th data-options="field:'activityOrgName',width:30,align:'center'">学校名称</th>
+						<th
+							data-options="field:'status',width:20,align:'center',formatter:formatterZT">审核状态</th>
+						<th data-options="field:'ranking',width:30,align:'center'">校内排名</th>
+						<th
+							data-options="field:'regionId',width:40,align:'center',formatter:formatterCZ">操作</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="showApplyDetailInfo" class="easyui-dialog" title="申请详情"
+			style="width: 600px; height: 440px; padding: 15px; position: relative;"
+			data-options="closed:true,modal:true">
+			<table>
+				<tr>
+					<td class="hF">学校名称：</td>
+					<td id="td_ActivityOrgName"></td>
+				</tr>
+				<tr>
+					<td class="hF">申请人昵称：</td>
+					<td id="td_NickName"></td>
+				</tr>
+				<tr>
+					<td class="hF">姓名：</td>
+					<td id="td_SubmiterName"></td>
+				</tr>
+				<tr>
+					<td class="hF">联系电话：</td>
+					<td id="td_Tel1"></td>
+				</tr>
+				<tr>
+					<td class="hF">队员姓名：</td>
+					<td id="td_MemberNames"></td>
+				</tr>
+				<tr>
+					<td class="hF">创业说明：</td>
+					<td id="td_ApplyDesc"></td>
+				</tr>
+				<tr>
+					<td class="hF">照片：</td>
+					<td rowspan="2" colspan="2">
+						<div class="img_div" id="imageUrls">
+							
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="hF"></td>
+				</tr>
+				<tr>
+					<td class="hF">身份证照：</td>
+					<td rowspan="2" colspan="2">
+						<div class="img_div" id="idCardImages">
+							
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="hF"></td>
+				</tr>
+				<tr>
+					<td class="hF">学生证：</td>
+					<td rowspan="2" colspan="2">
+						<div class="img_div" id="schoolCardImages">
+							
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="hF"></td>
+				</tr>
+				<tr>
+					<td class="hF">审核结果：</td>
+					<td>
+						<span class="radioSpan"> <input type="radio" name="status"
+								value="1" /> 通过 <input type="radio" name="status" value="2" />
+							不通过
+						</span>
+					</td>
+				</tr>
+				<tr id="tr_Reason" style="tr_Reason">
+					<td style="height: 20px">原因</td>
+					<td>
+						<input id="upReason" data-options="multiline:true"
+							style="width: 100%" class="easyui-textbox" />
+					</td>
+				</tr>
+			</table>
+			<div class="foot" style="padding-top: 10px">
+				<a href="javascript:updateStatus();" class="audit">保存</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
